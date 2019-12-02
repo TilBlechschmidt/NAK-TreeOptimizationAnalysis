@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Build &amp; Execute" type="CompoundRunConfigurationType">
+    <toRun name="Build JAR" type="GradleRunConfiguration" />
+    <toRun name="Run JAR" type="JarApplication" />
+    <method v="2" />
+  </configuration>
+</component>
