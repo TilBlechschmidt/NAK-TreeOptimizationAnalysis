@@ -1,7 +1,6 @@
-package de.nordakademie.treeOptimizationAnalysis.knownReactionPathes;
+package de.nordakademie.treeOptimizationAnalysis.knownReactionPaths;
 
 import de.nordakademie.treeOptimizationAnalysis.GameState;
-import de.nordakademie.treeOptimizationAnalysis.HeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.KnownReactionsPath;
 
 import java.util.Map;
