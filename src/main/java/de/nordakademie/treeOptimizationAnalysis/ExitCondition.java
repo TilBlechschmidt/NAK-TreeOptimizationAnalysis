@@ -1,9 +1,9 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-public interface ExitCondition<T extends GameState> {
+public interface ExitCondition<T extends GameState<T>> {
     interface Factory {
-        <T extends GameState> ExitCondition<T>
-        create(HeuristicEvaluation<T> heuristicEvaluation, KnownReactionsPath<T> path);
+        <T extends GameState<T>> ExitCondition<T>
+        create(HeuristicEvaluation<T> heuristicEvaluation, KnownReactionsPath<T> path, Player player);
     }
-    boolean shouldBreak(T gameState);
+    boolean shouldBreak(GameStateTreeNode<T> evaluationBase, GameStateTreeNode<T> gameState);
 }

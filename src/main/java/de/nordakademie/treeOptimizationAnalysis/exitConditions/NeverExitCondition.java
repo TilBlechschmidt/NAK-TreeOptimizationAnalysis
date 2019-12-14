@@ -1,16 +1,13 @@
 package de.nordakademie.treeOptimizationAnalysis.exitConditions;
 
-import de.nordakademie.treeOptimizationAnalysis.ExitCondition;
-import de.nordakademie.treeOptimizationAnalysis.GameState;
-import de.nordakademie.treeOptimizationAnalysis.HeuristicEvaluation;
-import de.nordakademie.treeOptimizationAnalysis.KnownReactionsPath;
+import de.nordakademie.treeOptimizationAnalysis.*;
 
-public class NeverExitCondition<T extends GameState> implements ExitCondition<T> {
+public class NeverExitCondition<T extends GameState<T>> implements ExitCondition<T> {
     public NeverExitCondition() {}
     public NeverExitCondition(HeuristicEvaluation<T> h, KnownReactionsPath<T> k) {this();}
 
     @Override
-    public boolean shouldBreak(T gameState) {
-        return gameState.isFinal();
+    public boolean shouldBreak(GameStateTreeNode<T> evaluationBase, GameStateTreeNode<T> gameState) {
+        return gameState.getState().isFinal();
     }
 }

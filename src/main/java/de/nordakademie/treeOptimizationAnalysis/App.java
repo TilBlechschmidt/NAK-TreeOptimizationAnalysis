@@ -1,10 +1,8 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-import de.nordakademie.treeOptimizationAnalysis.GameState;
-import de.nordakademie.treeOptimizationAnalysis.InARowGameState;
+import de.nordakademie.treeOptimizationAnalysis.games.InARowGameState;
 
 import java.util.ArrayDeque;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
