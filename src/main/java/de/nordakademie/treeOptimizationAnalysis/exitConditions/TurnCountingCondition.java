@@ -7,7 +7,7 @@ public class TurnCountingCondition<T extends GameState<T>> implements ExitCondit
 
     public static ExitCondition.Factory factory(int turnsLookedForward) {
         return new ExitCondition.Factory() {
-            public <T extends GameState<T>>  ExitCondition<T> create(HeuristicEvaluation<T> heuristicEvaluation, KnownReactionsPath<T> knownReactionsPath){
+            public <T extends GameState<T>>  ExitCondition<T> create(HeuristicEvaluation<T> heuristicEvaluation, KnownReactionsPath<T> knownReactionsPath, Player player){
                 return new TurnCountingCondition<>(turnsLookedForward);
             }};
     }
