@@ -9,6 +9,7 @@ public class GameStateTreeNode<T extends GameState<T>> {
     private final GameStateTreeNode<T> parent;
     private final int depth;
     private Set<GameStateTreeNode<T>> children = new HashSet<>();
+    private boolean expanded;
 
     public GameStateTreeNode(T state) {
         this.state = state;
@@ -42,5 +43,12 @@ public class GameStateTreeNode<T extends GameState<T>> {
         GameStateTreeNode<T> child = new GameStateTreeNode(nextState, this, depth + 1);
         children.add( child);
         return child;
+    }
+
+    public void expand() {
+        if(! expanded) {
+            state.getNextStates().forEach(this::createChild);
+            expanded = true;
+        }
     }
 }
