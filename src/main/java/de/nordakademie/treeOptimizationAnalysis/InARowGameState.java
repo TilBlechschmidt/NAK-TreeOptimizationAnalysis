@@ -1,28 +1,28 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 
 import static de.nordakademie.treeOptimizationAnalysis.Player.PLAYER_1;
 import static de.nordakademie.treeOptimizationAnalysis.Player.PLAYER_2;
 
 public class InARowGameState implements GameState {
-    private final int emptyField = 0;
-
     private final int width, height;
 
-    private final int[][] field;
+    private final Player[][] field;
     private final Player currentPlayer;
     private final int winLength;
     private final boolean gravity;
 
     public InARowGameState(int width, int height, int winLength, boolean gravity, Player currentPlayer) {
-        this(width, height, winLength, gravity, currentPlayer, new int[width][height]);
+        this(width, height, winLength, gravity, currentPlayer, new Player[width][height]);
     }
 
-    private InARowGameState(int width, int height, int winLength, boolean gravity, Player currentPlayer, int[][] field) {
+    private InARowGameState(int width, int height, int winLength, boolean gravity, Player currentPlayer, Player[][] field) {
         this.width = width;
         this.height = height;
         this.field = field;
@@ -31,9 +31,9 @@ public class InARowGameState implements GameState {
         this.currentPlayer = currentPlayer;
     }
 
-    private InARowGameState createChildState(Consumer<int[][]> fieldMutator) {
+    private InARowGameState createChildState(Consumer<Player[][]> fieldMutator) {
         // 1. Create a copy of the field
-        int[][] newField = new int[width][height];
+        Player[][] newField = new Player[width][height];
 
         for (int i = 0; i < width; i++) {
             System.arraycopy(field[i], 0, newField[i], 0, height);
@@ -57,9 +57,9 @@ public class InARowGameState implements GameState {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (field[x][y] == emptyField) {
+                if (field[x][y] == null) {
                     int fX = x, fY = y;
-                    newStates.add(createChildState(field -> field[fX][fY] = currentPlayer.getIndex()));
+                    newStates.add(createChildState(field -> field[fX][fY] = currentPlayer));
 
                     if (gravity) {
                         break;
@@ -82,20 +82,103 @@ public class InARowGameState implements GameState {
     }
 
     @Override
+    public Map<Player, PlayerSituation> getGameSituation() {
+        Map<Player, PlayerSituation> situationMap = new HashMap<>();
+        var ref = new Object() {
+            int currentLength = 0;
+            Player previousField = null;
+        };
+
+        BinaryOperator<Integer> checkField = (x, y) -> {
+            // TODO Replace this with proper loops
+            if (x >= width || y >= height) return null;
+            Player currentField = field[x][y];
+
+            if (ref.previousField != currentField) ref.currentLength = 0;
+            if (currentField != null) ref.currentLength++;
+            if (ref.currentLength >= winLength) {
+                situationMap.put(currentField, PlayerSituation.HasWon);
+            }
+
+            ref.previousField = currentField;
+
+            return null;
+        };
+
+        // Check for vertical lines
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                checkField.apply(x, y);
+            }
+            ref.currentLength = 0;
+            ref.previousField = null;
+        }
+
+        // Check for horizontal lines
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                checkField.apply(x, y);
+            }
+            ref.currentLength = 0;
+            ref.previousField = null;
+        }
+
+        // Check for diagonal lines
+        int maximumXY = Math.min(width, height);
+        for (int startX = 0; startX < maximumXY; startX++) {
+            // Bottom left to top right
+            for (int xy = 0; xy < maximumXY; xy++) {
+                checkField.apply(xy + startX, xy);
+            }
+            ref.currentLength = 0;
+            ref.previousField = null;
+
+            // Top left to bottom right
+            for (int xy = 0; xy < maximumXY; xy++) {
+                checkField.apply(xy + startX, (maximumXY - 1) - xy);
+            }
+            ref.currentLength = 0;
+            ref.previousField = null;
+        }
+
+        // Detect deadlock conditions
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (field[x][y] == null) {
+                    situationMap.put(PLAYER_1, PlayerSituation.Deadlock);
+                    situationMap.put(PLAYER_2, PlayerSituation.Deadlock);
+                    return situationMap;
+                }
+            }
+        }
+
+        return situationMap;
+    }
+
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int y = height - 1; y >= 0; y--) {
             for (int x = 0; x < width; x++) {
-                if (field[x][y] == emptyField) {
+                if (field[x][y] == null) {
                     stringBuilder.append('-');
                 } else {
-                    stringBuilder.append(field[x][y]);
+                    stringBuilder.append(field[x][y].getIndex());
                 }
                 stringBuilder.append(' ');
             }
             stringBuilder.append('\n');
         }
+
+        Map<Player, PlayerSituation> situation = getGameSituation();
+        situation.forEach(((player, playerSituation) -> {
+            stringBuilder.append("P");
+            stringBuilder.append(player.getIndex());
+            stringBuilder.append(": ");
+            stringBuilder.append(playerSituation);
+            stringBuilder.append("\n");
+        }));
 
         return stringBuilder.toString();
     }
