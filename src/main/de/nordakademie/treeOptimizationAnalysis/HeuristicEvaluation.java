@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public interface HeuristicEvaluation<T extends GameState> {
 
-    interface Factory<T extends GameState> {
+    interface Factory<T extends GameState<T>> {
         HeuristicEvaluation<T> create();
     }
 
