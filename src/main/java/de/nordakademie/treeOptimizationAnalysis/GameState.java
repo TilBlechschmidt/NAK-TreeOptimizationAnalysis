@@ -1,12 +1,13 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface GameState<T extends GameState<T>> {
-    List<GameState<T>> getNextStates();
     boolean isFinal();
     Map<Player,Double> eval();
-    GameState<T> getParent();
-    // TODO getTurnCount -> why return T?
+    T getParent();
+    int getTurnCount();
+    Set<T> getNextStates();
+    Player getNextChoice();
 }

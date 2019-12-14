@@ -9,12 +9,6 @@ import java.util.Map;
 public class UncompressedKnownReactionsPath<T extends GameState> implements KnownReactionsPath<T> {
     private Map<T,T> reactions = new HashMap<>();
 
-
-    @Override
-    public void addStaticCache(T initialState, int startingSteps, int finalSteps) {
-        //TODO
-    }
-
     @Override
     public void cache(T start, T result) {
         reactions.put(start,result);
