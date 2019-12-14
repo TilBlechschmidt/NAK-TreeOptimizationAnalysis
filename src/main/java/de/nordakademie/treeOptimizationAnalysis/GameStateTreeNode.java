@@ -1,9 +1,14 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class GameStateTreeNode {
     private final GameState state;
     private final GameStateTreeNode parent;
     private final int depth;
+    private Set<GameState> children = new HashSet<>();
 
     public GameStateTreeNode(GameState state) {
         this.state = state;
@@ -29,7 +34,13 @@ public class GameStateTreeNode {
         return this.depth;
     }
 
+    public Set<GameState> getChildren() {
+        return Collections.unmodifiableSet(children);
+    }
+
     public GameStateTreeNode createChild(GameState nextState) {
-        return new GameStateTreeNode(nextState, this, depth + 1);
+        GameStateTreeNode child = new GameStateTreeNode(nextState, this, depth + 1);
+        children.add((GameState) child);
+        return child;
     }
 }
