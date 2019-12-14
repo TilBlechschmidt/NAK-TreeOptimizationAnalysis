@@ -1,6 +1,8 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import static de.nordakademie.treeOptimizationAnalysis.Player.PLAYER_1;
@@ -77,16 +79,6 @@ public class InARowGameState implements GameState {
     @Override
     public Map<Player, Double> eval() {
         return null;
-    }
-
-    @Override
-    public GameState getParent() {
-        return null;
-    }
-
-    @Override
-    public int getTurnCount() {
-        return -1;
     }
 
     @Override
