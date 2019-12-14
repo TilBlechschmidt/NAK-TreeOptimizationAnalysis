@@ -1,17 +1,17 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-public class GameStateTreeNode {
-    private final GameState state;
-    private final GameStateTreeNode parent;
+public class GameStateTreeNode<T extends GameState<T>> {
+    private final T state;
+    private final GameStateTreeNode<T> parent;
     private final int depth;
 
-    public GameStateTreeNode(GameState state) {
+    public GameStateTreeNode(T state) {
         this.state = state;
         this.parent = null;
         this.depth = 0;
     }
 
-    public GameStateTreeNode(GameState state, GameStateTreeNode parent, int depth) {
+    public GameStateTreeNode(T state, GameStateTreeNode<T> parent, int depth) {
         this.state = state;
         this.parent = parent;
         this.depth = depth;
@@ -21,7 +21,7 @@ public class GameStateTreeNode {
         return this.state;
     }
 
-    public GameStateTreeNode getParent() {
+    public GameStateTreeNode<T> getParent() {
         return this.parent;
     }
 
