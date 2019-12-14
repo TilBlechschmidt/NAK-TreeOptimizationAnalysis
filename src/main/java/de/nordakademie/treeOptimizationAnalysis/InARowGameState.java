@@ -1,9 +1,10 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
+
+import static de.nordakademie.treeOptimizationAnalysis.Player.PLAYER_1;
+import static de.nordakademie.treeOptimizationAnalysis.Player.PLAYER_2;
 
 public class InARowGameState implements GameState {
     private final int emptyField = 0;
@@ -11,20 +12,21 @@ public class InARowGameState implements GameState {
     private final int width, height;
 
     private final int[][] field;
-    private final Player currentPlayer = Player.PLAYER_1;
+    private final Player currentPlayer;
     private final int winLength;
     private final boolean gravity;
 
-    public InARowGameState(int width, int height, int winLength, boolean gravity) {
-        this(width, height, winLength, gravity, new int[width][height]);
+    public InARowGameState(int width, int height, int winLength, boolean gravity, Player currentPlayer) {
+        this(width, height, winLength, gravity, currentPlayer, new int[width][height]);
     }
 
-    private InARowGameState(int width, int height, int winLength, boolean gravity, int[][] field) {
+    private InARowGameState(int width, int height, int winLength, boolean gravity, Player currentPlayer, int[][] field) {
         this.width = width;
         this.height = height;
         this.field = field;
         this.winLength = winLength;
         this.gravity = gravity;
+        this.currentPlayer = currentPlayer;
     }
 
     private InARowGameState createChildState(Consumer<int[][]> fieldMutator) {
@@ -39,12 +41,17 @@ public class InARowGameState implements GameState {
         fieldMutator.accept(newField);
 
         // 3. Create a cloned instance
-        return new InARowGameState(width, height, winLength, gravity, newField);
+        return new InARowGameState(width, height, winLength, gravity, getNextChoice(), newField);
     }
 
     @Override
-    public List<GameState> getNextStates() {
-        List<GameState> newStates = new ArrayList<>();
+    public Player getNextChoice() {
+        return currentPlayer == PLAYER_1 ? PLAYER_2 : PLAYER_1;
+    }
+
+    @Override
+    public Set<GameState> getNextStates() {
+        Set<GameState> newStates = new HashSet<>();
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -75,6 +82,11 @@ public class InARowGameState implements GameState {
     @Override
     public GameState getParent() {
         return null;
+    }
+
+    @Override
+    public int getTurnCount() {
+        return -1;
     }
 
     @Override

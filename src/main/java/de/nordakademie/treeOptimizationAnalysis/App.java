@@ -6,12 +6,13 @@ import de.nordakademie.treeOptimizationAnalysis.InARowGameState;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 public class App {
     private static void traverseDepthFirst(GameState state) {
         System.out.println(state.toString());
 
-        List<GameState> nextStates = state.getNextStates();
+        Set<GameState> nextStates = state.getNextStates();
         for (GameState nextState : nextStates) {
             traverseDepthFirst(nextState);
         }
@@ -25,13 +26,13 @@ public class App {
             GameState dequeued = queue.poll();
             System.out.println(dequeued.toString());
 
-            List<GameState> nextStates = dequeued.getNextStates();
+            Set<GameState> nextStates = dequeued.getNextStates();
             queue.addAll(nextStates);
         }
     }
 
     public static void main(String[] args) {
-        InARowGameState state = new InARowGameState(2, 2, 2, true);
+        InARowGameState state = new InARowGameState(2, 2, 2, true, Player.PLAYER_1);
 
         traverseBreadthFirst(state);
 //        traverseDepthFirst(state);
