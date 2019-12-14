@@ -18,24 +18,24 @@ public class InitialKnownReactionsPathFiller {
         this.ownPlayer = ownPlayer;
     }
 
-    public <T extends GameState<T>> void fillCache(KnownReactionsPath<T> p, T initialState) {
+    public <T extends GameState<T>> void fillCache(KnownReactionsPath<T> p, GameStateTreeNode<T> initialState) {
         OptionAnalysis<T> result = this.getPath(initialState, 0);
         for(Map.Entry<T,T> entry: result.getData().entrySet()) {
             p.cache(entry.getKey(), entry.getValue());
         }
     }
 
-    private <T extends GameState<T>> OptionAnalysis<T> getPath(T initialState, int steps) {
-        if(initialState.isFinal()) {
-            OptionAnalysis<T> result = new OptionAnalysis<>(initialState);
-            T state = initialState.getParent();
+    private <T extends GameState<T>> OptionAnalysis<T> getPath(GameStateTreeNode<T> initialState, int steps) {
+        if(initialState.getState().isFinal()) {
+            OptionAnalysis<T> result = new OptionAnalysis<>(initialState.getState());
+            GameStateTreeNode<T> state = initialState.getParent();
             for(int i=0; i < finalSteps && state != null; i++) {
-                result.data.put(state, initialState);
+                result.data.put(state.getState(), initialState.getState());
             }
             return result;
         } else {
-                Set<OptionAnalysis<T>> options = initialState.getNextStates()
-                        .stream()
+                initialState.expand();
+                Set<OptionAnalysis<T>> options = initialState.getChildren().stream()
                         .map(s -> getPath(s, steps +1))
                         .collect(Collectors.toSet());
                 OptionAnalysis<T> choosen = options.stream().max((s1, s2) -> (int) Math.signum(
@@ -43,7 +43,7 @@ public class InitialKnownReactionsPathFiller {
                                         - s2.expectedResult.eval().get(ownPlayer)
                         )).get();
 
-                if(! initialState.getNextChoice().equals(ownPlayer)) {
+                if(! initialState.getState().getNextChoice().equals(ownPlayer)) {
                     options.stream()
                             .filter(((Predicate<OptionAnalysis<T>>)choosen::equals).negate())
                             .map(OptionAnalysis::getData)
@@ -51,7 +51,7 @@ public class InitialKnownReactionsPathFiller {
                 }
 
                 if(steps < initialSteps) {
-                    choosen.data.put(initialState, choosen.expectedResult);
+                    choosen.data.put(initialState.getState(), choosen.expectedResult);
                 }
                 return choosen;
         }
