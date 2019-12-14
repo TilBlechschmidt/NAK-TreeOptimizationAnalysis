@@ -1,4 +1,7 @@
-package de.nordakademie.treeOptimizationAnalysis;
+package de.nordakademie.treeOptimizationAnalysis.games;
+
+import de.nordakademie.treeOptimizationAnalysis.GameState;
+import de.nordakademie.treeOptimizationAnalysis.Player;
 
 import java.util.HashSet;
 import java.util.Map;
