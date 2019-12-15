@@ -84,16 +84,6 @@ public class InARowGameState implements GameState {
     }
 
     @Override
-    public boolean isFinal() {
-        return false;
-    }
-
-    @Override
-    public Map<Player, Double> eval() {
-        return null;
-    }
-
-    @Override
     public Map<Player, PlayerSituation> getGameSituation() {
         Map<Player, PlayerSituation> situationMap = new HashMap<>();
         var ref = new Object() {
@@ -188,7 +178,8 @@ public class InARowGameState implements GameState {
             stringBuilder.append('\n');
         }
 
-        Map<Player, PlayerSituation> situation = getGameSituation();
+        Map<Player,
+ PlayerSituation> situation = getGameSituation();
         situation.forEach(((player, playerSituation) -> {
             stringBuilder.append("P");
             stringBuilder.append(player.getIndex());
