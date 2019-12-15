@@ -11,11 +11,11 @@ public abstract class NullSumHeuristicEvaluation<T extends GameState> extends Ru
     @Override
     public Map<Player, Double> evalHeuristic(T state) {
         Map<Player, Double> result = new HashMap<>();
-        double val = evalForPlayer0(state);
+        double val = evalFor(Player.PLAYER_1, state) - evalFor(Player.PLAYER_2, state);
         result.put(Player.PLAYER_1, val);
         result.put(Player.PLAYER_2, 0 - val);
         return result;
     }
 
-    protected abstract double evalForPlayer0(T state);
+    protected abstract double evalFor(Player p, T state);
 }

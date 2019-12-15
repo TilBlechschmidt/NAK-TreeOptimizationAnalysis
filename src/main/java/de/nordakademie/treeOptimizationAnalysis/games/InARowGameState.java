@@ -2,6 +2,7 @@ package de.nordakademie.treeOptimizationAnalysis.games;
 
 import de.nordakademie.treeOptimizationAnalysis.GameState;
 import de.nordakademie.treeOptimizationAnalysis.Player;
+import de.nordakademie.treeOptimizationAnalysis.PlayerSituation;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +33,14 @@ public class InARowGameState implements GameState {
         this.winLength = winLength;
         this.gravity = gravity;
         this.currentPlayer = currentPlayer;
+    }
+
+    public Player[][] getField() {
+        return field;
+    }
+
+    public int getWinLength() {
+        return winLength;
     }
 
     private InARowGameState createChildState(Consumer<Player[][]> fieldMutator) {
@@ -144,15 +153,20 @@ public class InARowGameState implements GameState {
             ref.previousField = null;
         }
 
-        // Detect deadlock conditions
-        for (int x = 0; x < width; x++) {
+        // Detect Tie conditions
+        boolean foundValidMove = false;
+        outer: for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (field[x][y] == null) {
-                    situationMap.put(PLAYER_1, PlayerSituation.Deadlock);
-                    situationMap.put(PLAYER_2, PlayerSituation.Deadlock);
-                    return situationMap;
+                    foundValidMove = true;
+                    break outer;
                 }
             }
+        }
+        if(!foundValidMove) {
+            situationMap.put(PLAYER_1, PlayerSituation.Tie);
+            situationMap.put(PLAYER_2, PlayerSituation.Tie);
+            return situationMap;
         }
 
         return situationMap;

@@ -30,6 +30,7 @@ public class App {
     }
 
     public static void main(String[] args) {
+        System.out.println(-0.0 < 0.0);
         InARowGameState state = new InARowGameState(2, 2, 2, true, Player.PLAYER_1);
 
         traverseBreadthFirst(state);
