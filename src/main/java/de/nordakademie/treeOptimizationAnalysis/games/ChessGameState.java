@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChessGameState implements GameState<ChessGameState> {
+
     public static class Field {
         private int x;
         private int y;
@@ -108,6 +109,10 @@ public class ChessGameState implements GameState<ChessGameState> {
     public Player getNextChoice() {
         return nextPlayer;
     }
+    public ChessPiece[][] getBoard() {
+        return board;
+    }
+
 
     public boolean isChess(Player player) {
         return possibleMoves(player.getOther())
