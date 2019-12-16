@@ -84,7 +84,7 @@ public class InARowGameState implements GameState<InARowGameState> {
 
     @Override
     public GameSituation getGameSituation() {
-        var situation = GameSituation.RUNNING;
+        GameSituation situation = GameSituation.RUNNING;
 
         // Detect Tie conditions
         boolean foundValidMove = false;
@@ -169,19 +169,35 @@ public class InARowGameState implements GameState<InARowGameState> {
         for (int y = height - 1; y >= 0; y--) {
             for (int x = 0; x < width; x++) {
                 if (field[x][y] == null) {
-                    stringBuilder.append('-');
+                    stringBuilder.append('_');
                 } else {
                     stringBuilder.append(field[x][y].getIndex());
                 }
-                stringBuilder.append(' ');
             }
-            stringBuilder.append('\n');
+            stringBuilder.append('|');
         }
-
-        GameSituation situation = getGameSituation();
-        stringBuilder.append(situation);
-        stringBuilder.append('\n');
-
         return stringBuilder.toString();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public boolean isGravity() {
+        return gravity;
+    }
+
+    @Override
+    public int getBoardWidth() {
+        return field.length;
+    }
+
+    @Override
+    public int getBoardHeight() {
+        return field[0].length;
     }
 }

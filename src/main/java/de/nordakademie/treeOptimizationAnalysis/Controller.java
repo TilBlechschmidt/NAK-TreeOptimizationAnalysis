@@ -1,12 +1,15 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
 import de.nordakademie.treeOptimizationAnalysis.exitConditions.ExitCondition;
+import de.nordakademie.treeOptimizationAnalysis.gamePoints.GameSituation;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 import de.nordakademie.treeOptimizationAnalysis.traversalIterator.TreeTraversalIterator;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +21,7 @@ public class Controller<T extends GameState<T>> {
     private final Set<GameStateTreeNode<T>> leafNodes = new HashSet<>();
     private final KnownReactionsPath<T> cache;
     private GameStateTreeNode<T> initialNode;
+    private long time;
 
     public Controller(ExitCondition<T> exitCondition, TreeTraversalIterator<T> iterator, HeuristicEvaluation<T> evaluation, KnownReactionsPath<T> cache) {
         this.exitCondition = exitCondition;
@@ -27,9 +31,10 @@ public class Controller<T extends GameState<T>> {
     }
 
     public boolean next() {
-        var node = iterator.pop();
+        GameStateTreeNode<T> node = iterator.pop();
+        T state = node.getState();
 
-        var gameSituation = node.getState().getGameSituation();
+        GameSituation gameSituation = state.getGameSituation();
         if (!exitCondition.shouldBreak(initialNode, node) && !gameSituation.isFinal()) {
             node.expand().forEach(iterator::push);
         } else {
@@ -47,11 +52,15 @@ public class Controller<T extends GameState<T>> {
         this.initialNode = initialNode;
         iterator.clear();
         iterator.push(this.initialNode);
+        long time = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
 
         while (!next()) {
         }
 
-        return choice();
+        GameStateTreeNode<T> choice = choice();
+
+        this.time += ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime() - time;
+        return choice;
     }
 
     private GameStateTreeNode<T> choice(GameStateTreeNode<T> start) {
@@ -63,8 +72,8 @@ public class Controller<T extends GameState<T>> {
         }
 
         GameStateTreeNode<T> result = children
-                .parallelStream()
-                //.stream()
+                //.parallelStream()
+                .stream()
                 .peek(this::choice)
                 .max(Comparator.comparingDouble(node -> getPoints(node, start.getState().getNextChoice())))
                 .orElse(start);
@@ -77,5 +86,24 @@ public class Controller<T extends GameState<T>> {
     }
 
 
+    public ExitCondition<T> getExitCondition() {
+        return exitCondition;
+    }
+
+    public TreeTraversalIterator<T> getIterator() {
+        return iterator;
+    }
+
+    public HeuristicEvaluation<T> getEvaluation() {
+        return evaluation;
+    }
+
+    public KnownReactionsPath<T> getCache() {
+        return cache;
+    }
+
+    public long getTime() {
+        return time;
+    }
 }
 

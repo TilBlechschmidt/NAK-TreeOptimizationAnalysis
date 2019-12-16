@@ -7,6 +7,13 @@ import java.util.Map;
 
 public class CompressedKnownReactionPath<T extends GameState> implements KnownReactionsPath<T> {
 
+    public static final Factory FACTORY = new Factory() {
+        @Override
+        public <T extends GameState> KnownReactionsPath<T> create() {
+            return new CompressedKnownReactionPath<>();
+        }
+    };
+
     private Map<T,T> paths = new HashMap<>();
     private Map<T,T> invertedSteps = new HashMap<>();
 
@@ -36,5 +43,10 @@ public class CompressedKnownReactionPath<T extends GameState> implements KnownRe
     @Override
     public int size() {
         return paths.size();
+    }
+
+    @Override
+    public String toString() {
+        return "CompressedKnownReactionPath";
     }
 }

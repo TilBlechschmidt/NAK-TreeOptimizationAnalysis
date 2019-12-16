@@ -45,5 +45,10 @@ public class CompareToOtherOptionsByHeuristicExitCondition<T extends GameState<T
         return false;
     }
 
-
+    @Override
+    public String toString() {
+        return "CompareToOtherOptionsByHeuristicExitCondition{" +
+                "difference=" + difference +
+                '}';
+    }
 }

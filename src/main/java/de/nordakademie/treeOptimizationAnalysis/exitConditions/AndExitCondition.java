@@ -39,4 +39,11 @@ public class AndExitCondition<T extends GameState<T>> implements ExitCondition<T
         return true;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder("and(");
+        exitConditions.forEach(b::append);
+        b.append(")");
+        return b.toString();
+    }
 }

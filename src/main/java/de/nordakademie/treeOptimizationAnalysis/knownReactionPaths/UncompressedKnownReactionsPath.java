@@ -7,7 +7,12 @@ import java.util.Map;
 
 public class UncompressedKnownReactionsPath<T extends GameState> implements KnownReactionsPath<T> {
     private Map<T,T> reactions = new HashMap<>();
-
+    public static final Factory FACTORY = new Factory() {
+        @Override
+        public <T extends GameState> KnownReactionsPath<T> create() {
+            return new UncompressedKnownReactionsPath<>();
+        }
+    };
     @Override
     public void cache(T start, T result) {
         reactions.put(start,result);
@@ -30,5 +35,10 @@ public class UncompressedKnownReactionsPath<T extends GameState> implements Know
     @Override
     public int size() {
         return reactions.size();
+    }
+
+    @Override
+    public String toString() {
+        return "UncompressedKnownReactionsPath";
     }
 }

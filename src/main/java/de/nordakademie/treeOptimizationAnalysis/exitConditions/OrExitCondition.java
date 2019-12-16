@@ -38,4 +38,13 @@ public class OrExitCondition<T extends GameState<T>> implements ExitCondition<T>
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder("or(");
+        exitConditions.forEach(b::append);
+        b.append(")");
+        return b.toString();
+    }
+
 }

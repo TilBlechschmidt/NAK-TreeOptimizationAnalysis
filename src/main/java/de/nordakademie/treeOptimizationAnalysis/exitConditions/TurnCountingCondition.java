@@ -26,4 +26,11 @@ public class TurnCountingCondition<T extends GameState<T>> implements ExitCondit
         return gameState.getDepth() - evaluationBase.getDepth() >= turnsLookedForward
                 || gameState.getState().getGameSituation().isFinal();
     }
+
+    @Override
+    public String toString() {
+        return "TurnCountingCondition{" +
+                "turnsLookedForward=" + turnsLookedForward +
+                '}';
+    }
 }

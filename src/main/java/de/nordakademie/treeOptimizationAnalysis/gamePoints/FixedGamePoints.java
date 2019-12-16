@@ -18,4 +18,12 @@ public class FixedGamePoints implements GamePoints {
     public double getPlayer2Score() {
         return player2Score;
     }
+
+    @Override
+    public String toString() {
+        return "FixedGamePoints{" +
+                "player1:" + player1Score +
+                ", player2:" + player2Score +
+                '}';
+    }
 }

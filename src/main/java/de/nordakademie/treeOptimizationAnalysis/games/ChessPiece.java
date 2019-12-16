@@ -25,17 +25,17 @@ public class ChessPiece {
     private static Dir[] QUEEN_AND_KING_DIRS = {new Dir(1,0), new Dir(1,1), new Dir(0,1),
             new Dir(-1,1), new Dir(-1,0), new Dir(-1,-1), new Dir(0,-1), new Dir(1,-1)};
 
-    public static ChessPiece rook(Player player) {return new ChessPiece(player, 5, true, ROOK_DIRS,false); }
-    public static ChessPiece bishop(Player player) {return new ChessPiece(player, 3, true, BISHOP_DIRS, false); }
-    public static ChessPiece knight(Player player) {return new ChessPiece(player, 3, false, KNIGHT_DIRS, false); }
-    public static ChessPiece queen(Player player) {return new ChessPiece(player, 5, true, QUEEN_AND_KING_DIRS, false); }
+    public static ChessPiece rook(Player player) {return new ChessPiece(player, 5, true, ROOK_DIRS,false, "r"); }
+    public static ChessPiece bishop(Player player) {return new ChessPiece(player, 3, true, BISHOP_DIRS, false,"b"); }
+    public static ChessPiece knight(Player player) {return new ChessPiece(player, 3, false, KNIGHT_DIRS, false, "n"); }
+    public static ChessPiece queen(Player player) {return new ChessPiece(player, 5, true, QUEEN_AND_KING_DIRS, false, "q"); }
     //TODO Casteling - maybe will never be done, because its not that critical.
-    public static ChessPiece king(Player player) {return new ChessPiece(player, 5, false, QUEEN_AND_KING_DIRS, true); }
+    public static ChessPiece king(Player player) {return new ChessPiece(player, 5, false, QUEEN_AND_KING_DIRS, true, "k"); }
     public static ChessPiece pawn(Player player) { return pawn(player, false);}
 
     public static ChessPiece pawn(Player player, boolean moved) {
         int dy = player.equals(Player.PLAYER_1) ? 1:-1;
-        return new ChessPiece(player, 5, false, null, false) {
+        return new ChessPiece(player, 5, false, null, false, "p") {
             @Override
             public List<ChessGameState.Field> possibleGoals(ChessGameState.Field ownPosition, ChessPiece[][] board) {
                 List<ChessGameState.Field> result = new ArrayList<>();
@@ -75,16 +75,18 @@ public class ChessPiece {
 
     private Player player;
     private int value;
+    private String code;
     private boolean multiSteps;
     private boolean isKing;
     private Dir[] directions;
 
-    public ChessPiece(Player player, int value, boolean multiSteps, Dir[] directions, boolean isKing) {
+    public ChessPiece(Player player, int value, boolean multiSteps, Dir[] directions, boolean isKing, String code) {
         this.player = player;
         this.value = value;
         this.multiSteps = multiSteps;
         this.directions = directions;
         this.isKing = isKing;
+        this.code = (Player.PLAYER_1.equals(player) ? code : code.toUpperCase());
     }
 
     public List<ChessGameState.Field> possibleGoals(ChessGameState.Field ownPosition, ChessPiece[][] board) {
@@ -122,5 +124,9 @@ public class ChessPiece {
 
     public boolean isKing()  {
         return isKing;
+    }
+
+    public String toString() {
+        return code;
     }
 }

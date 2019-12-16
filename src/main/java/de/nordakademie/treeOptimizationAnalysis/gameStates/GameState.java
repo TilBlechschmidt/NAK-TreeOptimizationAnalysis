@@ -11,4 +11,7 @@ public interface GameState<T extends GameState<T>> {
     Set<T> getNextStates();
 
     Player getNextChoice();
+
+    int getBoardWidth();
+    int getBoardHeight();
 }

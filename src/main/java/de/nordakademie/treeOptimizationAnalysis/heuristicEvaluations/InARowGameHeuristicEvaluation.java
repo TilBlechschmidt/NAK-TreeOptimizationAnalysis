@@ -10,45 +10,81 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<InARowGameState> {
-    public static final BinaryOperator<Integer> ACCUMULATE_BY_MAX = (akku,length) -> Math.max(akku,length);
-    public static final BinaryOperator<Integer> ACCUMULATE_BY_SQUARE_SUM = (akku, length) -> akku + length  * length;
-    public static final PointsCounter.Builder LENGTH_BY_CONSECUTIVE = lengthAccumulator -> (akku, winLength, row) -> {
-        int length=0;
-        for(Boolean field: row) {
-            if(field != null && field) {
-                length++;
-            } else if(length != 0) {
-                akku = lengthAccumulator.apply(akku,length);
-                length = 0;
-            }
+    public static final BinaryOperator<Integer> ACCUMULATE_BY_MAX = new BinaryOperator<Integer>() {
+        @Override
+        public Integer apply(Integer akku, Integer length) {
+            return Math.max(akku, length);
         }
-        if(length != 0) {
-            akku = lengthAccumulator.apply(akku,length);
+
+        @Override
+        public String toString() {
+            return "max";
         }
-        return akku;
+    };
+    public static final BinaryOperator<Integer> ACCUMULATE_BY_SQUARE_SUM = new BinaryOperator<Integer>() {
+        @Override
+        public Integer apply(Integer akku, Integer length) {
+            return akku + length*length;
+        }
+        @Override
+        public String toString() {
+            return "square sum";
+        }
     };
 
-    public static final PointsCounter.Builder LENGTH_BY_OBJECTS_IN_POSSIBLE_BOX = lengthAccumulator -> (akku, winLength, row) -> {
-        outer: for(int start = 0; start <= row.size() - winLength; start++) {
-            int sum = 0;
-            for(int index = start; index < start + winLength; index ++) {
-                Boolean val = row.get(index);
-                if(val != null) {
-                    if(val) {
-                        sum ++;
-                    } else {
-                        start = index+1;
-                        continue outer;
-                    }
+
+    public static final PointsCounter.Builder LENGTH_BY_CONSECUTIVE = lengthAccumulator -> new PointsCounter() {
+        @Override
+        public int applyLengthChanges(int akku, int winLength, List<Boolean> row) {
+            int length=0;
+            for(Boolean field: row) {
+                if(field != null && field) {
+                    length++;
+                } else if(length != 0) {
+                    akku = lengthAccumulator.apply(akku,length);
+                    length = 0;
                 }
             }
-            akku = lengthAccumulator.apply(akku, sum);
+            if(length != 0) {
+                akku = lengthAccumulator.apply(akku,length);
+            }
+            return akku;
         }
-        return akku;
+
+        @Override
+        public String toString() {
+            return "consecutive length accumulated as" + lengthAccumulator.toString();
+        }
+    };
+
+    public static final PointsCounter.Builder LENGTH_BY_OBJECTS_IN_POSSIBLE_BOX = lengthAccumulator -> new PointsCounter() {
+        @Override
+        public int applyLengthChanges(int akku, int winLength, List<Boolean> row) {
+            outer: for(int start = 0; start <= row.size() - winLength; start++) {
+                int sum = 0;
+                for(int index = start; index < start + winLength; index ++) {
+                    Boolean val = row.get(index);
+                    if(val != null) {
+                        if(val) {
+                            sum ++;
+                        } else {
+                            start = index+1;
+                            continue outer;
+                        }
+                    }
+                }
+                akku = lengthAccumulator.apply(akku, sum);
+            }
+            return akku;
+        }
+        @Override
+        public String toString() {
+            return "occupied in possible row accumulated as" + lengthAccumulator.toString();
+        }
     };
 
     public interface PointsCounter {
-        interface Builder {
+         interface Builder {
              PointsCounter accumulateBy(BinaryOperator<Integer> lengthAccumulator);
         }
         int applyLengthChanges(int akku, int winLength, List<Boolean> row);
@@ -101,5 +137,11 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
         }
         accumulator = lengthDefinition.applyLengthChanges(accumulator, winLength, bools);
         return accumulator;
+    }
+
+    @Override
+    public String toString() {
+        return "InARowGameHeuristicEvaluation(" + lengthDefinition +
+                "/" + maxPoints + ')';
     }
 }

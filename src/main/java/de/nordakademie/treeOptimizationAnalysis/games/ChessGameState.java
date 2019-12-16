@@ -116,4 +116,25 @@ public class ChessGameState implements GameState<ChessGameState> {
                 .filter(Objects::nonNull)
                 .anyMatch(ChessPiece::isKing);
     }
+
+    @Override
+    public int getBoardWidth() {
+        return board.length;
+    }
+
+    @Override
+    public int getBoardHeight() {
+        return board[0].length;
+    }
+
+    public  String toString() {
+        StringBuilder b = new StringBuilder();
+        for(ChessPiece[] row: board) {
+            for(ChessPiece field: row) {
+                b.append(field == null ? "_": field.toString());
+            }
+            b.append("|");
+        }
+        return b.toString();
+    }
 }
