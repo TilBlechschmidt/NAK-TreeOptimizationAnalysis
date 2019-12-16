@@ -85,6 +85,7 @@ public class App implements Runnable {
     public void run() {
         printHeaders();
         games.forEach(this::analyze);
+        executor.shutdown();
     }
 
     private <T extends GameState<T>> void analyze(Game<T> game) {
