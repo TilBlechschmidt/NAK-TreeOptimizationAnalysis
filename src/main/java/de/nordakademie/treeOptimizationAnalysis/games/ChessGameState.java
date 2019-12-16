@@ -1,14 +1,48 @@
 package de.nordakademie.treeOptimizationAnalysis.games;
 
-import de.nordakademie.treeOptimizationAnalysis.GameState;
 import de.nordakademie.treeOptimizationAnalysis.Player;
-import de.nordakademie.treeOptimizationAnalysis.PlayerSituation;
+import de.nordakademie.treeOptimizationAnalysis.gamePoints.GameSituation;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChessGameState implements GameState<ChessGameState> {
+    @Override
+    public GameSituation getGameSituation() {
+        if (calcNextStates().noneMatch(s -> true)) {
+            if (isChess(nextPlayer)) {
+                return GameSituation.hasWon(nextPlayer.getOther());
+            } else {
+                return GameSituation.TIE;
+            }
+        }
+
+        return GameSituation.RUNNING;
+    }
+
+    private class Move {
+        Field start;
+        Field goal;
+
+        public Move(Field start, Field goal) {
+            this.start = start;
+            this.goal = goal;
+        }
+    }
+
+    private ChessPiece[][] board;
+    private Player nextPlayer;
+    private Map<Player, Field> kingPositions;
+
+    public ChessGameState(ChessPiece[][] board, Player nextPlayer) {
+        this.board = board;
+        this.nextPlayer = nextPlayer;
+    }
 
     public static class Field {
         private int x;
@@ -22,7 +56,6 @@ public class ChessGameState implements GameState<ChessGameState> {
         public int getX() {
             return x;
         }
-
         public int getY() {
             return y;
         }
@@ -30,45 +63,10 @@ public class ChessGameState implements GameState<ChessGameState> {
         public boolean isIn(ChessPiece[][] board) {
             return x >= 0 && y >= 0 && x < board.length && y < board[x].length;
         }
+
         public ChessPiece get(ChessPiece[][] board) {
             return board[x][y];
         }
-    }
-    private class Move  {
-        Field start;
-        Field goal;
-
-        public Move(Field start, Field goal) {
-            this.start = start;
-            this.goal = goal;
-        }
-    }
-
-    private ChessPiece[][] board;
-    private Player nextPlayer;
-    private Map<Player,Field> kingPositions;
-
-    public ChessGameState(ChessPiece[][] board, Player nextPlayer) {
-        this.board = board;
-        this.nextPlayer = nextPlayer;
-    }
-
-    @Override
-    public Map<Player, PlayerSituation> getGameSituation() {
-        Map map = new HashMap();
-        if(!calcNextStates().anyMatch(s -> true)) {
-            if(isChess(nextPlayer)) {
-                map.put(nextPlayer, PlayerSituation.HasLost);
-                map.put(nextPlayer.getOther(), PlayerSituation.HasWon);
-            } else {
-                map.put(nextPlayer, PlayerSituation.Tie);
-                map.put(nextPlayer, PlayerSituation.Tie);
-            }
-        } else {
-            map.put(nextPlayer, PlayerSituation.Running);
-            map.put(nextPlayer, PlayerSituation.Running);
-        }
-        return map;
     }
 
     @Override
@@ -104,7 +102,6 @@ public class ChessGameState implements GameState<ChessGameState> {
         return Stream.iterate(0, i -> +1).limit(limit);
     }
 
-
     @Override
     public Player getNextChoice() {
         return nextPlayer;
@@ -112,7 +109,6 @@ public class ChessGameState implements GameState<ChessGameState> {
     public ChessPiece[][] getBoard() {
         return board;
     }
-
 
     public boolean isChess(Player player) {
         return possibleMoves(player.getOther())

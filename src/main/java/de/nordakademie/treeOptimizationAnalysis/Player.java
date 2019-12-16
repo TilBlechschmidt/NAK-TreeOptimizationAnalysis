@@ -16,6 +16,6 @@ public enum Player {
 
     public Player getOther() {
         Player[] values = Player.values();
-        values[this.ordinal() + 1 % values.length]
-    };
+        return values[this.ordinal() + 1 % values.length];
+    }
 }
