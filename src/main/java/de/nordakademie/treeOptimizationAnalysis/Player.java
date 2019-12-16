@@ -13,4 +13,9 @@ public enum Player {
     public int getIndex() {
         return index;
     }
+
+    public Player getOther() {
+        Player[] values = Player.values();
+        return values[this.ordinal() + 1 % values.length];
+    }
 }
