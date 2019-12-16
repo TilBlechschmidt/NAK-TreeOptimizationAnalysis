@@ -31,7 +31,7 @@ import static de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.InAR
 public class App implements Runnable {
     // define Output
     private static final String ENTRY_SEPERATOR = "\n";
-    private static final String FIELD_SEPERATOR = ", ";
+    private static final String FIELD_SEPERATOR = "; ";
 
     // settings
     private static final Consumer<String> output = System.out::print;
