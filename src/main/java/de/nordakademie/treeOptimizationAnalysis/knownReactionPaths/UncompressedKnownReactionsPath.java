@@ -1,7 +1,6 @@
 package de.nordakademie.treeOptimizationAnalysis.knownReactionPaths;
 
-import de.nordakademie.treeOptimizationAnalysis.GameState;
-import de.nordakademie.treeOptimizationAnalysis.KnownReactionsPath;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,5 +25,10 @@ public class UncompressedKnownReactionsPath<T extends GameState> implements Know
             result = reactions.get(result);
         }
         return result;
+    }
+
+    @Override
+    public int size() {
+        return reactions.size();
     }
 }

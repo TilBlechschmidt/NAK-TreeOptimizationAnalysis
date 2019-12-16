@@ -1,4 +1,4 @@
-package de.nordakademie.treeOptimizationAnalysis;
+package de.nordakademie.treeOptimizationAnalysis.gameStates;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,16 +39,18 @@ public class GameStateTreeNode<T extends GameState<T>> {
         return Collections.unmodifiableSet(children);
     }
 
-    public GameStateTreeNode createChild(GameState nextState) {
-        GameStateTreeNode<T> child = new GameStateTreeNode(nextState, this, depth + 1);
-        children.add( child);
+    public GameStateTreeNode<T> createChild(T nextState) {
+        GameStateTreeNode<T> child = new GameStateTreeNode<>(nextState, this, depth + 1);
+        children.add(child);
         return child;
     }
 
-    public void expand() {
-        if(! expanded) {
+    public Set<GameStateTreeNode<T>> expand() {
+        if (!expanded) {
             state.getNextStates().forEach(this::createChild);
             expanded = true;
         }
+
+        return getChildren();
     }
 }

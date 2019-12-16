@@ -1,12 +1,9 @@
 package de.nordakademie.treeOptimizationAnalysis.knownReactionPaths;
 
-import de.nordakademie.treeOptimizationAnalysis.GameState;
-import de.nordakademie.treeOptimizationAnalysis.KnownReactionsPath;
-import de.nordakademie.treeOptimizationAnalysis.Player;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CompressedKnownReactionPath<T extends GameState> implements KnownReactionsPath<T> {
 
@@ -34,5 +31,10 @@ public class CompressedKnownReactionPath<T extends GameState> implements KnownRe
     @Override
     public T get(T start) {
         return paths.get(start);
+    }
+
+    @Override
+    public int size() {
+        return paths.size();
     }
 }

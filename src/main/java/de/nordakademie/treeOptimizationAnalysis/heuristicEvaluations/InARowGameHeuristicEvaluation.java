@@ -1,7 +1,7 @@
 package de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations;
 
 import de.nordakademie.treeOptimizationAnalysis.Player;
-import de.nordakademie.treeOptimizationAnalysis.games.InARowGameState;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.InARowGameState;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,8 +54,8 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
         int applyLengthChanges(int akku, int winLength, List<Boolean> row);
     }
 
-    public static Factory factory(PointsCounter pointsFinder, int maxPoints) {
-        return () -> new InARowGameHeuristicEvaluation(0,pointsFinder, maxPoints);
+    public static Factory<InARowGameState> factory(PointsCounter pointsFinder, int maxPoints) {
+        return () -> new InARowGameHeuristicEvaluation(0, pointsFinder, maxPoints);
     }
 
     private int initialAccumulator;
@@ -69,7 +69,7 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
     }
 
     @Override
-    protected double evalFor(Player player, InARowGameState state) {
+    public double evalFor(Player player, InARowGameState state) {
         List<List<Boolean>> field = Arrays.stream(state.getField())
                 .map(Arrays::stream)
                 .map(s -> s == null ? null : s.map(player::equals))
@@ -80,7 +80,7 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
         accumulator = eval(1,1, field, accumulator,winLength );
         accumulator = eval(1,0, field, accumulator,winLength);
         accumulator = eval(1,-1, field, accumulator,winLength);
-        return accumulator/ maxPoints;
+        return ((double) accumulator) / ((double) maxPoints);
     }
 
     private int eval(int dx, int dy, List<List<Boolean>> field, int accumulator, int winLength) {

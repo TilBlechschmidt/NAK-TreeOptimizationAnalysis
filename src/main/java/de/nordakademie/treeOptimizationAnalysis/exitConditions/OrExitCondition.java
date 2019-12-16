@@ -1,6 +1,10 @@
 package de.nordakademie.treeOptimizationAnalysis.exitConditions;
 
-import de.nordakademie.treeOptimizationAnalysis.*;
+import de.nordakademie.treeOptimizationAnalysis.Player;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
+import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEvaluation;
+import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 
 import java.util.Arrays;
 import java.util.Set;

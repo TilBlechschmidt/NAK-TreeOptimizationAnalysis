@@ -1,4 +1,8 @@
-package de.nordakademie.treeOptimizationAnalysis;
+package de.nordakademie.treeOptimizationAnalysis.knownReactionPaths;
+
+import de.nordakademie.treeOptimizationAnalysis.Player;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +30,7 @@ public class InitialKnownReactionsPathFiller {
     }
 
     private <T extends GameState<T>> OptionAnalysis<T> getPath(GameStateTreeNode<T> initialState, int steps) {
-        if(initialState.getState().isFinal()) {
+        if (initialState.getState().getGameSituation().isFinal()) {
             OptionAnalysis<T> result = new OptionAnalysis<>(initialState.getState());
             GameStateTreeNode<T> state = initialState.getParent();
             for(int i=0; i < finalSteps && state != null; i++) {
@@ -39,8 +43,8 @@ public class InitialKnownReactionsPathFiller {
                         .map(s -> getPath(s, steps +1))
                         .collect(Collectors.toSet());
                 OptionAnalysis<T> choosen = options.stream().max((s1, s2) -> (int) Math.signum(
-                                s1.expectedResult.eval().get(ownPlayer)
-                                        - s2.expectedResult.eval().get(ownPlayer)
+                        s1.expectedResult.getGameSituation().getPlayerScore(ownPlayer)
+                                - s2.expectedResult.getGameSituation().getPlayerScore(ownPlayer)
                         )).get();
 
                 if(! initialState.getState().getNextChoice().equals(ownPlayer)) {

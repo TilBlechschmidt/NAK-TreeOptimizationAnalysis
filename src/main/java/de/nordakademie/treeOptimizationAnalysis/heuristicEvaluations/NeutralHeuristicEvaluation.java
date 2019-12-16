@@ -1,7 +1,7 @@
 package de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations;
 
-import de.nordakademie.treeOptimizationAnalysis.GameState;
 import de.nordakademie.treeOptimizationAnalysis.Player;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
 public class NeutralHeuristicEvaluation<T extends GameState<T>> extends NullSumHeuristicEvaluation<T> {
     @Override
