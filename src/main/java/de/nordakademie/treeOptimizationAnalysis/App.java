@@ -34,7 +34,7 @@ public class App implements Runnable {
     private static final String FIELD_SEPERATOR = ", ";
 
     // settings
-    private static final PrintStream out = System.out;
+    private static final Consumer<String> output = System.out::print;
     private static final long TIMEOUT_IN_NANOS = 15l * 60l * 1000000000l;
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
 
@@ -148,19 +148,19 @@ public class App implements Runnable {
 
     private void printHeaders() {
         for(NamedMetric m: NamedMetric.allMetrics) {
-            out.print(m);
-            out.print(FIELD_SEPERATOR);
+            output.accept(m.toString());
+            output.accept(FIELD_SEPERATOR);
         }
-        out.print(ENTRY_SEPERATOR);
+        output.accept(ENTRY_SEPERATOR);
     };
     private void printMetrics(Controller<?> controller1, Controller<?> controller2, GameStateTreeNode<?> finalNode, GameState<?> initialNode, long time, String error) {
-        synchronized (out) {
+        synchronized (output) {
             for (NamedMetric m : NamedMetric.allMetrics) {
                 Object val = m.messure(controller1, controller2, finalNode, initialNode, time, error);
-                out.print(val == null ? " - " : val.toString());
-                out.print(FIELD_SEPERATOR);
+                output.accept(val == null ? " - " : val.toString());
+                output.accept(FIELD_SEPERATOR);
             }
-            out.print(ENTRY_SEPERATOR);
+            output.accept(ENTRY_SEPERATOR);
         }
     }
 
