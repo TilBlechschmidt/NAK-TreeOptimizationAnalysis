@@ -1,6 +1,7 @@
-package de.nordakademie.treeOptimizationAnalysis;
+package de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations;
 
-import java.util.Map;
+import de.nordakademie.treeOptimizationAnalysis.gamePoints.GamePoints;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
 /**
  * A Heuristic Evaluation is an better performent evaluation of how good is a state.
@@ -13,5 +14,5 @@ public interface HeuristicEvaluation<T extends GameState> {
         HeuristicEvaluation<T> create();
     }
 
-    Map<Player, Double> eval(T state);
+    GamePoints eval(T state);
 }

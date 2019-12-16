@@ -1,6 +1,10 @@
 package de.nordakademie.treeOptimizationAnalysis.exitConditions;
 
-import de.nordakademie.treeOptimizationAnalysis.*;
+import de.nordakademie.treeOptimizationAnalysis.Player;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
+import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEvaluation;
+import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 
 public class TurnCountingCondition<T extends GameState<T>> implements ExitCondition<T> {
     private int turnsLookedForward;
@@ -20,6 +24,6 @@ public class TurnCountingCondition<T extends GameState<T>> implements ExitCondit
     @Override
     public boolean shouldBreak(GameStateTreeNode<T> evaluationBase, GameStateTreeNode<T> gameState) {
         return gameState.getDepth() - evaluationBase.getDepth() >= turnsLookedForward
-                || gameState.getState().isFinal();
+                || gameState.getState().getGameSituation().isFinal();
     }
 }

@@ -1,4 +1,6 @@
-package de.nordakademie.treeOptimizationAnalysis;
+package de.nordakademie.treeOptimizationAnalysis.knownReactionPaths;
+
+import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
 public interface KnownReactionsPath<T extends GameState> {
     interface Factory {
@@ -10,4 +12,6 @@ public interface KnownReactionsPath<T extends GameState> {
     boolean isCached(T start);
 
     T get(T start);
+
+    int size();
 }
