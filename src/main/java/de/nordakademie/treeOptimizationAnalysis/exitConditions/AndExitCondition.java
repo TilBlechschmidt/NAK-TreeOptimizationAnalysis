@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class AndExitCondition<T extends GameState<T>> implements ExitCondition<T> {
     Set<ExitCondition<T>> exitConditions;
 
-    public ExitCondition.Factory factory(ExitCondition.Factory... args) {
+    public static ExitCondition.Factory factory(ExitCondition.Factory... args) {
         return new ExitCondition.Factory() {
             @Override
             public <T extends GameState<T>> ExitCondition<T> create(HeuristicEvaluation<T> heuristicEvaluation, KnownReactionsPath<T> path, Player player) {
