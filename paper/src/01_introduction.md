@@ -10,35 +10,27 @@
     keywords: [keyword1, keyword2]
 ---
 
-# Possent ventis hanc delubra (+CPU)
+# Introduction
+1. some made up reason why our project matters
 
-## Colophonius curvum stetit sospes
+## Problem
+- intended findings:
+	- performance of different algorithims
+	- precision of different algorisims
+- intended conclusion:
+	- recommendation for algorithim use for different profiles of Prefomance needs and precision needs.
 
-Lorem markdownum Hiems elaborque totum porrigit. Pereuntem tamen Cereris
-**habenas** sum captus quoque, videt, actum auras atria, memorantur arborea
-offer postquam Lichan; inmensos.
+## Relevance
+- somer real situations can be modeled as game
+	- but most frequent they are only simular
+		- no full knowledge
+		- not only one opponent
+		- social aspect
+- gaming often used for computer-human comparison
+	- academic value
+	- but unfair, since its a domain where computers are strong
+- Automated gaming
+	- due to increasing solitude game AI raise in importence
 
-1. Crede crudelis rescindere rapit collabitur capillis inpar
-2. Cum fuerit eheu Scyrumve
-3. Lycaon flammiferis subit
-4. Urbem cadme servitii tibi leve vestem pendentia
-5. Postquam fronti alios mentis despondet ingenti Mater
-
-## Quae cuncta {#sec:section1}
-
-Voces ales credita. Cum misit terram est votaque quis dederat sumit, profecturas
-criminis totque sex querenti. Iudice est illis *et* vires et Insula, mactandus,
-credulitate iudicium ita.
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-Saxa resoluta quid nupta, tremulis ore infelix
-[ipse](http://urbes-caede.org/siccaveratadversum) deque caelitibus confessa
-amnis at tamque, **procul siquidem** in artis! Poma partes sponte, nam lux
-discedit gravi aequore nunc[@src:source1].
 
 \pagebreak
