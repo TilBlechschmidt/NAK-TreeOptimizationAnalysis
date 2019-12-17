@@ -34,7 +34,7 @@ public class App implements Runnable {
 
     // settings
     private static final Consumer<String> output = System.out::print;
-    private static final long TIMEOUT_IN_NANOS = 15l * 60l * 1000000000l;
+    private static final long TIMEOUT_IN_NANOS = 1l * 60l * 1000000000l;
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
 
     // concurrnecy
@@ -48,39 +48,41 @@ public class App implements Runnable {
 
 
     public static void main(String[] args) {
-        List<ExitCondition.Factory> exits = Arrays.asList(
-                TurnCountingCondition.factory(2),
-                TurnCountingCondition.factory(4),
-                TurnCountingCondition.factory(6),
-                AndExitCondition.factory(
-                        TurnCountingCondition.factory(4),
-                        CompareToOtherOptionsByHeuristicExitCondition.factory(0.05)
-                ),
-                AndExitCondition.factory(
-                        TurnCountingCondition.factory(4),
-                        CompareToOtherOptionsByHeuristicExitCondition.factory(0.10)
-                ),
-                AndExitCondition.factory(
-                        TurnCountingCondition.factory(4),
-                        CompareToOtherOptionsByHeuristicExitCondition.factory(0.15)
-                )
-        );
+        List<ExitCondition.Factory> exits = new ArrayList<>();
         List<Supplier<TreeTraversalIterator<?>>> iterators = Arrays.asList(
                 BreadthFirstTreeTraversalIterator::new,
                 DepthFirstTreeTraversalIterator::new
         );
         List<KnownReactionsPath.Factory> caches = Arrays.asList(
-                UncompressedKnownReactionsPath.FACTORY
+                CompressedKnownReactionPath.FACTORY
         );
 
+
+        for (int i = 1; i < 5; i++) {
+            exits.add(TurnCountingCondition.factory(i));
+            for (double j = 0.02; j < 0.1; j += 0.02) {
+                exits.add(OrExitCondition.factory(
+                        TurnCountingCondition.factory(i),
+                        CompareToOtherOptionsByHeuristicExitCondition.factory(j)
+                ));
+            }
+        }
+        exits.add(TurnCountingCondition.factory(5));
+
         List games = Arrays.asList(getInARowGame());
+
+        System.out.println(exits.size());
+        int whatever = exits.size() * iterators.size() * caches.size();
+        System.out.println(whatever);
+        System.out.println(whatever * whatever * games.size() * 16);
+
         new App(exits, iterators, games, caches).run();
     }
 
     private static Game getInARowGame() {
         InARowGameState ticTacToe = new InARowGameState(3, 3, 3, false, Player.PLAYER_1);
         InARowGameState fourWins = new InARowGameState(6, 4, 4, true, Player.PLAYER_1);
-        List<InARowGameState> games = Arrays.asList(ticTacToe, fourWins);
+        List<InARowGameState> games = Arrays.asList(fourWins);
 
         HeuristicEvaluation.Factory<InARowGameState> objectsInFrameSquareSum = InARowGameHeuristicEvaluation.factory(LENGTH_BY_OBJECTS_IN_POSSIBLE_BOX.accumulateBy(ACCUMULATE_BY_SQUARE_SUM), 0);
 

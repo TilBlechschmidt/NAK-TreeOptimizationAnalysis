@@ -4,16 +4,22 @@ import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.InARowGameState;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
 public class NamedMetric {
     private static int counter = 0;
 
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
+
     public static final List<NamedMetric> allMetrics = new ArrayList<>(Arrays.asList(
             new NamedMetric("id", (c1, c2, r, i, d, e) -> counter++),
+            new NamedMetric("system time", (c1, c2, r, i, d, e) -> sdf.format(new Date())),
             new NamedMetric("board height",(c1,c2,r,i,d,e) -> r.getState().getBoardHeight()),
             new NamedMetric("board width",(c1,c2,r,i,d,e) -> r.getState().getBoardWidth()),
             new NamedMetric("game type", (c1,c2,r,i,d,e) -> r.getState().getClass().getSimpleName()),
