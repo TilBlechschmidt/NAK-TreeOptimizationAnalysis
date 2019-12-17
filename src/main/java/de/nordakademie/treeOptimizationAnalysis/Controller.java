@@ -82,7 +82,6 @@ public class Controller<T extends GameState<T>> {
         return evaluation.eval(cache.get(state.getState())).getPlayerScore(player);
     }
 
-
     public ExitCondition<T> getExitCondition() {
         return exitCondition;
     }
