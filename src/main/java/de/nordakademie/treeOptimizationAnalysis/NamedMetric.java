@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.function.Function;
 
 public class NamedMetric {
+    private static int counter = 0;
+
     public static final List<NamedMetric> allMetrics = new ArrayList<>(Arrays.asList(
+            new NamedMetric("id", (c1, c2, r, i, d, e) -> counter++),
             new NamedMetric("board height",(c1,c2,r,i,d,e) -> r.getState().getBoardHeight()),
             new NamedMetric("board width",(c1,c2,r,i,d,e) -> r.getState().getBoardWidth()),
             new NamedMetric("game type", (c1,c2,r,i,d,e) -> r.getState().getClass().getSimpleName()),

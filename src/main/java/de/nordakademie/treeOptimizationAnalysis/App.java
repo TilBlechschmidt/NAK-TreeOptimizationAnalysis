@@ -1,14 +1,13 @@
 package de.nordakademie.treeOptimizationAnalysis;
 
-import de.nordakademie.treeOptimizationAnalysis.exitConditions.ExitCondition;
-import de.nordakademie.treeOptimizationAnalysis.exitConditions.NeverExitCondition;
-import de.nordakademie.treeOptimizationAnalysis.exitConditions.TurnCountingCondition;
+import de.nordakademie.treeOptimizationAnalysis.exitConditions.*;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.InARowGameState;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.InARowGameHeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.InARowGameHeuristicEvaluation.PointsCounter.Builder;
+import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.CompressedKnownReactionPath;
 import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.UncompressedKnownReactionsPath;
 import de.nordakademie.treeOptimizationAnalysis.traversalIterator.BreadthFirstTreeTraversalIterator;
@@ -49,10 +48,30 @@ public class App implements Runnable {
 
 
     public static void main(String[] args) {
-        List<ExitCondition.Factory> exits = Arrays.asList(TurnCountingCondition.factory(2));
-        List<Supplier<TreeTraversalIterator<?>>> iterators =
-                Arrays.asList(() -> new BreadthFirstTreeTraversalIterator<>());
-        List<KnownReactionsPath.Factory> caches = Arrays.asList(UncompressedKnownReactionsPath.FACTORY);
+        List<ExitCondition.Factory> exits = Arrays.asList(
+                TurnCountingCondition.factory(2),
+                TurnCountingCondition.factory(4),
+                TurnCountingCondition.factory(6),
+                AndExitCondition.factory(
+                        TurnCountingCondition.factory(4),
+                        CompareToOtherOptionsByHeuristicExitCondition.factory(0.05)
+                ),
+                AndExitCondition.factory(
+                        TurnCountingCondition.factory(4),
+                        CompareToOtherOptionsByHeuristicExitCondition.factory(0.10)
+                ),
+                AndExitCondition.factory(
+                        TurnCountingCondition.factory(4),
+                        CompareToOtherOptionsByHeuristicExitCondition.factory(0.15)
+                )
+        );
+        List<Supplier<TreeTraversalIterator<?>>> iterators = Arrays.asList(
+                BreadthFirstTreeTraversalIterator::new,
+                DepthFirstTreeTraversalIterator::new
+        );
+        List<KnownReactionsPath.Factory> caches = Arrays.asList(
+                UncompressedKnownReactionsPath.FACTORY
+        );
 
         List games = Arrays.asList(getInARowGame());
         new App(exits, iterators, games, caches).run();
@@ -66,11 +85,12 @@ public class App implements Runnable {
         HeuristicEvaluation.Factory<InARowGameState> objectsInFrameSquareSum = InARowGameHeuristicEvaluation.factory(LENGTH_BY_OBJECTS_IN_POSSIBLE_BOX.accumulateBy(ACCUMULATE_BY_SQUARE_SUM), 0);
 
         List<HeuristicEvaluation.Factory> heuristics = new ArrayList<>();
-        for(Builder pcb: new Builder[] {LENGTH_BY_OBJECTS_IN_POSSIBLE_BOX, LENGTH_BY_CONSECUTIVE}) {
-            for(BinaryOperator<Integer> acc: new BinaryOperator[]{ACCUMULATE_BY_MAX, ACCUMULATE_BY_SQUARE_SUM}) {
+        for (Builder pcb : new Builder[] { LENGTH_BY_OBJECTS_IN_POSSIBLE_BOX, LENGTH_BY_CONSECUTIVE }) {
+            for (BinaryOperator<Integer> acc : new BinaryOperator[] { ACCUMULATE_BY_MAX, ACCUMULATE_BY_SQUARE_SUM }) {
                 heuristics.add(factory(pcb.accumulateBy(acc),1000));
             }
         }
+
         return new Game(heuristics, games);
     }
 
@@ -148,7 +168,7 @@ public class App implements Runnable {
     }
 
     private void printHeaders() {
-        for(NamedMetric m: NamedMetric.allMetrics) {
+        for (NamedMetric m : NamedMetric.allMetrics) {
             output.accept(m.toString());
             output.accept(FIELD_SEPERATOR);
         }

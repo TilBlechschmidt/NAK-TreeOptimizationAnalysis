@@ -37,6 +37,7 @@ public class CompressedKnownReactionPath<T extends GameState> implements KnownRe
 
     @Override
     public T get(T start) {
+        if (!isCached(start)) return start;
         return paths.get(start);
     }
 
