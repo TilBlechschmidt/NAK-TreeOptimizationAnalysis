@@ -18,7 +18,6 @@ public class Controller<T extends GameState<T>> {
     private final ExitCondition<T> exitCondition;
     private final TreeTraversalIterator<T> iterator;
     private final HeuristicEvaluation<T> evaluation;
-    private final Set<GameStateTreeNode<T>> leafNodes = new HashSet<>();
     private final KnownReactionsPath<T> cache;
     private GameStateTreeNode<T> initialNode;
     private long time;
@@ -30,21 +29,19 @@ public class Controller<T extends GameState<T>> {
         this.cache = cache;
     }
 
-    public boolean next() {
+    private boolean next() {
         GameStateTreeNode<T> node = iterator.pop();
         T state = node.getState();
 
         GameSituation gameSituation = state.getGameSituation();
         if (!exitCondition.shouldBreak(initialNode, node) && !gameSituation.isFinal()) {
             node.expand().forEach(iterator::push);
-        } else {
-            leafNodes.add(node);
         }
 
         return iterator.isEmpty();
     }
 
-    public GameStateTreeNode<T> choice() {
+    private GameStateTreeNode<T> choice() {
         return choice(initialNode);
     }
 

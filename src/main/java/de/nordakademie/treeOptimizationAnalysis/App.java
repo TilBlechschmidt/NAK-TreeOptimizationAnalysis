@@ -38,7 +38,7 @@ public class App implements Runnable {
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
 
     // concurrnecy
-    private static final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    private final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     private List<ExitCondition.Factory> exitConditions;
     private List<Supplier<TreeTraversalIterator<?>>> treeTraversalIterators;
