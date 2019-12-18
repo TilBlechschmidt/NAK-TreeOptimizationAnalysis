@@ -11,8 +11,10 @@
 ---
 
 # Introduction
-1. some made up reason why our project matters
-
+- reffering to alpha-go(-0)
+    - uses threes by Neural networks for expansion and evaluation
+    - big sucess
+    - bla bla buzzwordbingo
 ## Problem
 - intended findings:
 	- performance of different algorithims
