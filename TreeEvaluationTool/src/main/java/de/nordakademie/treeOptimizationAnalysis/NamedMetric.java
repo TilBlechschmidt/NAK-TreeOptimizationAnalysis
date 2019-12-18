@@ -3,6 +3,8 @@ package de.nordakademie.treeOptimizationAnalysis;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.InARowGameState;
+import de.nordakademie.treeOptimizationAnalysis.games.ChessGameState;
+import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.ChessHeuristicEvaluation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +47,9 @@ public class NamedMetric {
                     r = r.getParent();
                 }
                 return result;
-            })
+            }),
+            new NamedMetric("pointsP1", (c1,c2,r,i,d,e) -> (r.getState() instanceof ChessGameState) ? new ChessHeuristicEvaluation().evalFor(Player.PLAYER_1,(ChessGameState) r.getState()) : null)
+
     ));
 
     static {

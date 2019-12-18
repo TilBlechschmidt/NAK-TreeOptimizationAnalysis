@@ -39,7 +39,7 @@ public class App implements Runnable {
 
     // settings
     private static final Consumer<String> output = System.out::print;
-    private static final long TIMEOUT_IN_NANOS = 1l * 60l * 1000000000l;
+    private static final long TIMEOUT_IN_NANOS = 30l * 1000000000l;
     private static final int NUMBER_OF_THREADS = 1;//Runtime.getRuntime().availableProcessors();
 
     // concurrnecy
@@ -63,9 +63,9 @@ public class App implements Runnable {
         );
 
 
-        for (int i = 1; i < 2; i++) {
+        for (int i = 1; i < 3; i++) {
             exits.add(TurnCountingCondition.factory(i));
-            for (double j = 0.02; j < 0.1; j += 0.02) {
+            for (double j = 0.0; j < 0.3; j += 0.05) {
                 exits.add(OrExitCondition.factory(
                         TurnCountingCondition.factory(i),
                         CompareToOtherOptionsByHeuristicExitCondition.factory(j)
