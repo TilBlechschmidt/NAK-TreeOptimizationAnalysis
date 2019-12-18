@@ -1,35 +1,42 @@
 references:
-- id: src:source1
-  type: webpage
-  author:
-  - family: Müller
-  - family: Meier
-  issued:
-    date-parts:
-    - - 2018
-      - 11
-      - 10
-  title: How to write a TFL
-  container-title: How to write stuff
-  URL: https://example.org/howtowritestuff/tfl
-  accessed:
-    date-parts:
-    - - 2018
-      - 11
-      - 28
-  language: en-GB
-- id: src:source2
+- id: src:shannon
   type: article
   author:
-  - family: Müller
-    given: Hans
-  - family: Musk
-    given: Elon
+  - family: Shannon
+    given: Claude
   issued:
     date-parts:
-    - - 2017
-      - 2
-  title: The science behind science
-  language: en-GB
-  DOI: 10.1007/s00000-000-0000-0
-  publisher: Springer US
+    - - 1950
+      - 3
+  title: Programming a Computer for Playing Chess
+  URL: http://archive.computerhistory.org/projects/chess/related_materials/text/2-0%20and%202-1.Programming_a_computer_for_playing_chess.shannon/2-0%20and%202-1.Programming_a_computer_for_playing_chess.shannon.062303002.pdf
+  language: en-US
+  publisher: Philosophical Magazine
+  
+- id: src:alphaGo
+  type: article
+  author:
+  - family: Silver
+    given: David
+  issued:
+    date-parts:
+    - - 2016
+      - 1
+  title: Mastering the game of Go with Deep Neural Networks & Tree Search
+  language: en-US
+  publisher: NATURE
+  URL: https://deepmind.com/research/publications/mastering-game-go-deep-neural-networks-tree-search
+  
+- id: src:alphaGoWin
+  type: webpage
+  author:
+  - family: Ormerod
+    given: David
+  title: AlphaGo defeats Lee Sedol in first game of historic man vs machine match
+  language: en-US
+  URL: https://web.archive.org/web/20160314112424/https://gogameguru.com/alphago-defeats-lee-sedol-game-1/
+  accessed:
+    date-parts:
+    - - 2016
+      - 3
+      - 14

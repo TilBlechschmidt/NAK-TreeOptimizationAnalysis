@@ -89,15 +89,15 @@ struct GameExecution: Decodable {
     let totalExecutionTimeNanos: Int
     var totalExecutionTime: TimeInterval { return Double(totalExecutionTimeNanos) / 1_000_000_000.0 }
     
-    let boardHeight: Int
-    let boardWidth: Int
-    let winLength: Int
+//    let boardHeight: Int
+//    let boardWidth: Int
+//    let winLength: Int
     
     let gameType: String
-    let gravity: Bool
+//    let gravity: Bool
     
     let turnsPlayed: Int
-    let chronic: String
+//    let chronic: String
     
     let initialBoard: String
     let finalBoard: String
@@ -129,18 +129,18 @@ struct GameExecution: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case timestamp = "system time"
-        case boardHeight = "board height"
-        case boardWidth = "board width"
+//        case boardHeight = "board height"
+//        case boardWidth = "board width"
         case gameType = "game type"
-        case winLength = "win length"
-        case gravity = "gravity"
+//        case winLength = "win length"
+//        case gravity = "gravity"
         case turnsPlayed = "turns played"
         case initialBoard = "initial board"
         case finalBoard = "final board"
         case result
         case errors
         case totalExecutionTimeNanos = "full duration"
-        case chronic
+//        case chronic
         
         case expansionStrategyP1 = "expansion strategy of Player 1"
         case cacheP1 = "cache of Player 1"
@@ -160,7 +160,7 @@ struct GameExecution: Decodable {
     }
 }
 
-let filePath = "/Users/themegatb/Projects/Studies/KIIntro/TreeOptimizationAnalysis/ticTacToeOutput.csv"
+let filePath = "/Users/themegatb/Projects/Studies/KIIntro/TreeOptimizationAnalysis/data/chessOutput.csv"
 var executions = [GameExecution]()
 
 do {
@@ -172,7 +172,7 @@ do {
         let row = try decoder.decode(GameExecution.self, from: reader)
         executions.append(row)
         
-        if executions.count % 1000 == 0 {
+        if executions.count % 100 == 0 {
             print("Read \(executions.count) rows.")
         }
     }
@@ -181,8 +181,8 @@ do {
     print("Invalid row format!", error)
 }
 
-//typealias GroupedByType = ExitCondition
-typealias GroupedByType = EvaluationStrategy
+typealias GroupedByType = ExitCondition
+//typealias GroupedByType = EvaluationStrategy
 
 extension Dictionary where Key == GroupedByType, Value == [GameExecution] {
     func accumulate<T: AdditiveArithmetic>(_ keyPath: KeyPath<GameExecution, T>, initialValue: T) -> [Key : T] {
@@ -211,7 +211,7 @@ extension Dictionary where Key == GroupedByType, Value == [GameExecution] {
 }
 
 let groupedGames: [GroupedByType : [GameExecution]] = executions.reduce(into: [:], { accumulator, execution in
-    guard let exitCondition = execution.evaluationStrategyP1 else { return }
+    guard let exitCondition = execution.exitConditionP1 else { return }
     accumulator[exitCondition, default: []] += [execution]
 })
 
@@ -230,29 +230,29 @@ let groupedEndConditions: [GroupedByType : [EndCondition : Double]] = groupedGam
     }
 }
 
-let stream = OutputStream(toFileAtPath: "/Users/themegatb/Downloads/ticTacToeAccumulated.csv", append: false)!
+let stream = OutputStream(toFileAtPath: "/Users/themegatb/Downloads/chessAccumulated.csv", append: false)!
 let csv = try! CSVWriter(stream: stream, delimiter: ";")
 
 let keys = groupedGames.keys
 let dictionaries = [groupedTurnsPlayed, groupedTotalExecutionTime, groupedExecutionTimeP1, groupedExecutionTimeP2, groupedNodesP1, groupedNodesP2]
 
-// ["distance, "difference", "evaluationStrategy", "turnsPlayed", "totalExecutionTime", "executionTimeP1", "executionTimeP2", "nodesP1", "nodesP2", "winCountP1", "winCountP2", "tieCount"]
-try! csv.write(row: ["evaluationStrategy", "turnsPlayed", "totalExecutionTime", "executionTimeP1", "executionTimeP2", "nodesP1", "nodesP2", "winCountP1", "winCountP2", "tieCount"])
+try! csv.write(row: ["distance", "difference", "turnsPlayed", "totalExecutionTime", "executionTimeP1", "executionTimeP2", "nodesP1", "nodesP2", "winCountP1", "winCountP2", "tieCount"])
+//try! csv.write(row: ["evaluationStrategy", "turnsPlayed", "totalExecutionTime", "executionTimeP1", "executionTimeP2", "nodesP1", "nodesP2", "winCountP1", "winCountP2", "tieCount"])
 csv.beginNewRow()
 
 keys.forEach { key in
-//    switch key {
-//    case .turnLimit(let distance):
-//        try! csv.write(field: "\(distance)")
-//        try! csv.write(field: "")
-//    case .heuristic(let difference, let distance):
-//        try! csv.write(field: "\(distance)")
-//        try! csv.write(field: "\(difference)")
-//    }
-    try! csv.write(field: String(describing: key))
+    switch key {
+    case .turnLimit(let distance):
+        try! csv.write(field: "\(distance)")
+        try! csv.write(field: "")
+    case .heuristic(let difference, let distance):
+        try! csv.write(field: "\(distance)")
+        try! csv.write(field: "\(difference)")
+    }
+//    try! csv.write(field: String(describing: key))
     
     dictionaries.forEach { dict in
-        try! csv.write(field: dict[key].flatMap { "\($0)" } ?? "")
+        try! csv.write(field: dict[key].flatMap { "\($0)" } ?? "--")
     }
     
     let endConditions = groupedEndConditions[key]
