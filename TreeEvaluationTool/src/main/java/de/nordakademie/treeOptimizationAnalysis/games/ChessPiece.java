@@ -35,7 +35,7 @@ public class ChessPiece {
 
     public static ChessPiece pawn(Player player, boolean moved) {
         int dy = player.equals(Player.PLAYER_1) ? 1:-1;
-        return new ChessPiece(player, 5, false, null, false, "p") {
+        return new ChessPiece(player, 1, false, null, false, "p") {
             @Override
             public List<ChessGameState.Field> possibleGoals(ChessGameState.Field ownPosition, ChessPiece[][] board) {
                 List<ChessGameState.Field> result = new ArrayList<>();
@@ -54,7 +54,7 @@ public class ChessPiece {
                     ChessGameState.Field beat = new ChessGameState.Field(ownPosition.getX()+dx, ownPosition.getY() + dy);
                     if(beat.isIn(board) && beat.get(board) == null) {
                         ChessPiece beaten = beat.get(board);
-                        if(beaten != null && beaten.getPlayer().equals(player)) {
+                        if(beaten != null && !beaten.getPlayer().equals(player)) {
                             result.add(beat);
                         }
                     }
@@ -93,17 +93,27 @@ public class ChessPiece {
         List<ChessGameState.Field> result = new ArrayList<>();
         for(Dir dir: directions) {
             int count = 1;
-            ChessGameState.Field field = field(ownPosition, dir, count);
-            ChessPiece piece = field.get(board);
-            do {
-                if(piece == null || !piece.getPlayer().equals(player)) {
-                   result.add(field);
+            while (true) {
+                ChessGameState.Field field = field(ownPosition, dir, count);
+                if(field.isIn(board)) {
+                    ChessPiece piece = field.get(board);
+                    if (piece == null) {
+                        result.add(field);
+                        if(! multiSteps) {
+                            break;
+                        }
+                    } else if(!piece.getPlayer().equals(player)){
+                        result.add(field);
+                        break;
+                    } else break;
+                    count++;
+                } else {
+                    break;
                 }
-                count ++;
-                field = field(ownPosition, dir, count);
-                piece = field.get(board);
-            } while (multiSteps && piece == null);
+            }
+
         }
+//        System.out.println(result);
         return result;
     }
 

@@ -4,10 +4,7 @@ import de.nordakademie.treeOptimizationAnalysis.Player;
 import de.nordakademie.treeOptimizationAnalysis.gamePoints.GameSituation;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -95,11 +92,16 @@ public class ChessGameState implements GameState<ChessGameState> {
     private Stream<Move> possibleMoves(Player player) {
         return intStreamTo(board.length).flatMap(x -> intStreamTo(board[x].length).map(y -> new Field(x,y)))
             .filter(field -> field.get(board) != null && field.get(board).getPlayer().equals(player))
-            .flatMap(field -> field.get(board).possibleGoals(field,board).stream().map(goal -> new Move(field, goal)));
+            .flatMap(field -> {
+                ChessPiece piece = field.get(board);
+                //System.out.println(piece);
+                List<Field> options = piece.possibleGoals(field,board);
+                return  options.stream().map(goal -> new Move(field, goal));
+            });
     }
 
     private Stream<Integer> intStreamTo(int limit) {
-        return Stream.iterate(0, i -> +1).limit(limit);
+        return Stream.iterate(0, i -> i+1).limit(limit);
     }
 
     @Override

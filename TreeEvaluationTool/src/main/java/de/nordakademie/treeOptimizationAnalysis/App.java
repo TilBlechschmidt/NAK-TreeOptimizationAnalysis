@@ -4,6 +4,9 @@ import de.nordakademie.treeOptimizationAnalysis.exitConditions.*;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.InARowGameState;
+import de.nordakademie.treeOptimizationAnalysis.games.ChessGameState;
+import de.nordakademie.treeOptimizationAnalysis.games.ChessPiece;
+import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.ChessHeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.InARowGameHeuristicEvaluation;
 import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.InARowGameHeuristicEvaluation.PointsCounter.Builder;
@@ -25,6 +28,8 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static de.nordakademie.treeOptimizationAnalysis.Player.*;
+import static de.nordakademie.treeOptimizationAnalysis.games.ChessPiece.*;
 import static de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.InARowGameHeuristicEvaluation.*;
 
 public class App implements Runnable {
@@ -35,7 +40,7 @@ public class App implements Runnable {
     // settings
     private static final Consumer<String> output = System.out::print;
     private static final long TIMEOUT_IN_NANOS = 1l * 60l * 1000000000l;
-    private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
+    private static final int NUMBER_OF_THREADS = 1;//Runtime.getRuntime().availableProcessors();
 
     // concurrnecy
     private final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -58,7 +63,7 @@ public class App implements Runnable {
         );
 
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 2; i++) {
             exits.add(TurnCountingCondition.factory(i));
             for (double j = 0.02; j < 0.1; j += 0.02) {
                 exits.add(OrExitCondition.factory(
@@ -67,9 +72,8 @@ public class App implements Runnable {
                 ));
             }
         }
-        exits.add(TurnCountingCondition.factory(5));
 
-        List games = Arrays.asList(getInARowGame());
+        List games = Arrays.asList(getChess());
 
         System.out.println(exits.size());
         int whatever = exits.size() * iterators.size() * caches.size();
@@ -77,6 +81,22 @@ public class App implements Runnable {
         System.out.println(whatever * whatever * games.size() * 16);
 
         new App(exits, iterators, games, caches).run();
+    }
+
+    private static Game getChess() {
+        ChessPiece[][] board = {
+                {rook(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),rook(PLAYER_2)},
+                {knight(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),knight(PLAYER_2)},
+                {bishop(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),bishop(PLAYER_2)},
+                {queen(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),queen(PLAYER_2)},
+                {king(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),king(PLAYER_2)},
+                {bishop(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),bishop(PLAYER_2)},
+                {knight(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),knight(PLAYER_2)},
+                {rook(PLAYER_1),pawn(PLAYER_1),null,null,null,null,pawn(PLAYER_2),rook(PLAYER_2)},
+        };
+        ChessGameState initialBoard = new ChessGameState(board,PLAYER_1);
+
+        return new Game(Arrays.<HeuristicEvaluation.Factory<ChessGameState>>asList(ChessHeuristicEvaluation::new), Arrays.asList(initialBoard));
     }
 
     private static Game getInARowGame() {
@@ -113,7 +133,7 @@ public class App implements Runnable {
     private <T extends GameState<T>> void analyze(Game<T> game) {
         for (T initialState : game.initialGameStates) {
             forEachController(game, Player.PLAYER_1, controller1Fact ->
-                    forEachController(game, Player.PLAYER_2, controller2Fact -> {
+                    forEachController(game, PLAYER_2, controller2Fact -> {
                         executor.execute(() -> {
                             Controller<T> controller1 = controller1Fact.get();
                             Controller<T> controller2 = controller2Fact.get();
