@@ -1,7 +1,7 @@
 ---
     TFLNummer: 1
     title: Optimierung der Build-Dauer eines Web Application Bundler durch Anpassung der Konfiguration und dessen Auswirkung auf den Entwicklungsprozess
-    
+
     author: Max Mustermann
     Zenturie: A22f
     Studiengang: Angewandte Informatik
@@ -10,9 +10,9 @@
     keywords: [keyword1, keyword2]
 ---
 #Findings
-#In A Row
 - inculde diagrams
 ##Win rates
+### In a Row
 - no relevant change by making deeper evaluation
     - Contrary to Expectations
     - possible explanations
@@ -20,24 +20,33 @@
         - Tree exploration assumes competent opponent,
             - no heuristic for exploiting opponent weaknesses
             - no heuristic for tricking foe into mistakes
-- dependent on evaluation (for in a Row games)
+- dependent on evaluation.
     - evaluation can be focused on finishing early
     - best result by just counting the consecutive fields in a row
            - we basicly overengeneered it with the other options (maybe find a euphemism)
+### Chess
+- relevant change by making deeoer evaluation
+    - this shows in chess winning is complicated (wherin in a row games its strait forward and blocking is the strategie)
+        - might be due to the fact that a chessmate is quite a complex situation that can not be predicted by the Heuristic.
 ## Lose Rates
+- effects on Chess and in a row game are the same
+
 - making deeper evaluation decreases lose-rate
 - possible explanations:
     - more data to evaluate upon
     - sees longer winning strategies of oponent
 
 - braking before By Comparation to other nodes has bad effekt
-- possible explanations: 
+- possible explanations:
     - less Nodes evaluated
     - maybe brakes on the wrong positions
         - someone else might investigate other heuristics what to evaluate
 
-- 
+
 ## Turn counts
+- same for chess and in a row game - but effect is stronger on 4 in a Row
+    - this might be, because the effect that in chess you can actualy improver your winnig chance, dampens the efect of decreasing the loosing chance
+
 - actually never planned to have a plain result - just for making sense of perfomace values
 - turn counts go up, if lose rates go down
 - possible explanations:
@@ -56,11 +65,13 @@
 - braking before By Comparation to other nodes has only liddle effect
     - maby to high tollarance
     - cutting of an arm does not give that much since we have liddle bredth and depth
-        - method might still be intresting on 
+        - method might still be intresting on
 ### duration
 - better metric for how expensive it is to calculate the value
 - takes in account how much is needed for the exit condition
-
-### 
+- the more complex exit metrics failed here horrobly - because they took more time to eval,
+  whether or not to expand a node, than it would have taken to eval them.
+- Same results for chess
+- increases with deeper evaluation of the tree -> offiece reasons.
 
 \pagebreak

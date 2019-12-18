@@ -1,34 +1,21 @@
-## Solvit convertit viro direptos rupe ficto
+#Summury/results
+- finally it is and will always be a trade time <-> quality
+- sophisticated enhancements that try not to make this trate have liddle to no effekt. (or we are to stupid -> TODO find euphemism )
+- trees suffer the weakness, that they don not trick players into errors
+- The Simpler the better for the heuristic
+- no shure conclusions to bigger trees (or deeper evaluation ) can be drawn
+- different results for chess and in a row showcase, that the behavior show something about the games, not only about algorithms
+    - in chess the strategie is needet for winning, in a in a row game it is needet for
 
-Dominos est qua dextra feroxque, nam nymphas ignavus, per mersit tethys
-**Heliadum**. Exequialia ignava illas, pectore et nivea, inritamina ille
-rubebant, in Glaucus primos latius. Dissuadere potitur ebori fessam scelerum
-ternisque terrena dixit Sithonios metu considerat dabat adstantem iaculantem
-collumque te omnes et nemus dant. Tam oculis fuerant
-[dente](http://montis-et.org/), aere dea pereuntem est Hecates.
+## Further Reasearch recommendation
+- just scached the surface bla-bla -> but found a lot of new potentials for papers based on this
+- could dig deeper into other games -> searching for game-families with simular behavior
+- could research more algorithims
+- repeat reasearch with bigger and broader trees (with bigger infrastructure)
 
-1. Iuvenilior usum
-2. Nisi obest totidem[@src:source2, 89]
-3. Aurum corpora galeaque blandita ignis
-4. Ordine agnorunt murmure vates
-5. Medio confiteor aurea providus
-6. Fuit arte dignus spatiosi dummodo invictumque sub
-
-```java
-    public class HelloWorld {
-        public static void main (String[] args) {
-                // Print Hello World!
-                System.out.println("Hello World!");
-        }
-    }
-```
-
-Nubila vicit habent versasque Mulciber rapuere, auras summo fundit ipsamque
-mihi. Hic templum Venus quoque comitesque nunc. Iactatis et feretro latens
-sequitur cui quis mitescere et in **consolante** occursu.
-
-Außerdem beachte man [Abschnitt @sec:section1].
-
-Dies ist eine schöne Gleichung: $e^{\pi i} - 1 = 0$.
+#Conclusion
+We found that the Algorithms we tryed can not even keep up with brute force,
+so the value of our work - contray to our expectations
+ - is that we providet a framwork for such research.
 
 \pagebreak
