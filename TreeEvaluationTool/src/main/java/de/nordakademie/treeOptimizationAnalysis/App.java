@@ -39,8 +39,8 @@ public class App implements Runnable {
 
     // settings
     private static final Consumer<String> output = System.out::print;
-    private static final long TIMEOUT_IN_NANOS = 30l * 1000000000l;
-    private static final int NUMBER_OF_THREADS = 1;//Runtime.getRuntime().availableProcessors();
+    private static final long TIMEOUT_IN_NANOS = 60l * 1000000000l;
+    private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
 
     // concurrnecy
     private final ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);

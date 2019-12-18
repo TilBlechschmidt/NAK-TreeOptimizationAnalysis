@@ -39,7 +39,7 @@ public class NamedMetric {
             new NamedMetric("result", (c1,c2,r,i,d,e) -> r.getState().getGameSituation()),
             new NamedMetric("errors", (c1,c2,r,i,d,e) -> e),
             new NamedMetric("full duration", (c1,c2,r,i,d,e) -> d),
-            new NamedMetric("chronic", (c1,c2,r,i,d,e) -> {
+/*            new NamedMetric("chronic", (c1,c2,r,i,d,e) -> {
                 StringBuilder result = new StringBuilder();
                 while (r != null) {
                     result.insert(0, r.getState());
@@ -47,8 +47,8 @@ public class NamedMetric {
                     r = r.getParent();
                 }
                 return result;
-            }),
-            new NamedMetric("pointsP1", (c1,c2,r,i,d,e) -> (r.getState() instanceof ChessGameState) ? new ChessHeuristicEvaluation().evalFor(Player.PLAYER_1,(ChessGameState) r.getState()) : null)
+            }),*/
+            new NamedMetric("pointsP1", (c1,c2,r,i,d,e) -> (r.getState() instanceof ChessGameState) ? new ChessHeuristicEvaluation().eval((ChessGameState) r.getState()).getPlayer1Score() : null)
 
     ));
 

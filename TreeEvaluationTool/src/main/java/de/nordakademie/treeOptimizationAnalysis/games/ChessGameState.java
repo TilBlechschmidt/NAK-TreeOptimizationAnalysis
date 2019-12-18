@@ -18,6 +18,12 @@ public class ChessGameState implements GameState<ChessGameState> {
                 return GameSituation.TIE;
             }
         }
+        if(Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
+                .allMatch(ChessPiece::isKing)) {
+            return GameSituation.TIE;
+        }
 
         return GameSituation.RUNNING;
     }
