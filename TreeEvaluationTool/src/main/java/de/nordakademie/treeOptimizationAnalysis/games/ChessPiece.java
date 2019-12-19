@@ -29,7 +29,6 @@ public class ChessPiece {
     public static ChessPiece bishop(Player player) {return new ChessPiece(player, 3, true, BISHOP_DIRS, false,"b"); }
     public static ChessPiece knight(Player player) {return new ChessPiece(player, 3, false, KNIGHT_DIRS, false, "n"); }
     public static ChessPiece queen(Player player) {return new ChessPiece(player, 5, true, QUEEN_AND_KING_DIRS, false, "q"); }
-    //TODO Casteling - maybe will never be done, because its not that critical.
     public static ChessPiece king(Player player) {return new ChessPiece(player, 5, false, QUEEN_AND_KING_DIRS, true, "k"); }
     public static ChessPiece pawn(Player player) { return pawn(player, false);}
 

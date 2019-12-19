@@ -9,10 +9,10 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-public abstract class ExitConditionTest<T extends GameState<T>> {
+public abstract class ExitConditionTest {
 
-    protected abstract Stream<ExitCondition<T>> exitConditionsUnderTest();
-    protected abstract Stream<GameStateTreeNode<T>> sampleStates();
+    protected abstract Stream<ExitCondition> exitConditionsUnderTest();
+    protected abstract Stream<GameStateTreeNode> sampleStates();
 
     @Test
     public void exitConditionsShouldExitOnFinalState() {
@@ -32,9 +32,11 @@ public abstract class ExitConditionTest<T extends GameState<T>> {
         exitConditionsUnderTest().forEach(exitCondition ->
                 sampleStates().forEach( sampleStart ->
                         sampleStates().forEach( sampleEnd -> {
-                            if(sampleEnd.getState().getGameSituation().isFinal()) {
-                                Assert.assertTrue(exitCondition.shouldBreak(sampleStart,sampleEnd));
-                            }
+                            boolean first = exitCondition.shouldBreak(sampleStart,sampleEnd);
+                            boolean second = exitCondition.shouldBreak(sampleStart,sampleEnd);
+                            boolean third = exitCondition.shouldBreak(sampleStart,sampleEnd);
+                            Assert.assertEquals(first,second);
+                            Assert.assertEquals(first,third);
                         })
                 )
         );
