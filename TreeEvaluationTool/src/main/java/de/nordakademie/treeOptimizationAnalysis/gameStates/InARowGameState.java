@@ -127,13 +127,6 @@ public class InARowGameState implements GameState<InARowGameState> {
         return stringBuilder.toString();
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 
     public boolean isGravity() {
         return gravity;

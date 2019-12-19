@@ -7,7 +7,7 @@ import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEv
 import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 
 public class TurnCountingCondition<T extends GameState<T>> implements ExitCondition<T> {
-    private int turnsLookedForward;
+    private final int turnsLookedForward;
 
     public static ExitCondition.Factory factory(int turnsLookedForward) {
         return new ExitCondition.Factory() {

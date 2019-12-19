@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 public class InitialKnownReactionsPathFiller {
 
-    private int initialSteps;
-    private int finalSteps;
-    private Player ownPlayer;
+    private final int initialSteps;
+    private final int finalSteps;
+    private final Player ownPlayer;
 
     public InitialKnownReactionsPathFiller(int initialSteps, int finalSteps, Player ownPlayer) {
         this.initialSteps = initialSteps;
@@ -42,28 +42,28 @@ public class InitialKnownReactionsPathFiller {
                 Set<OptionAnalysis<T>> options = initialState.getChildren().stream()
                         .map(s -> getPath(s, steps +1))
                         .collect(Collectors.toSet());
-                OptionAnalysis<T> choosen = options.stream().max((s1, s2) -> (int) Math.signum(
-                        s1.expectedResult.getGameSituation().getPlayerScore(ownPlayer)
-                                - s2.expectedResult.getGameSituation().getPlayerScore(ownPlayer)
+                OptionAnalysis<T> chosen = options.stream().max((s1, s2) -> (int) Math.signum(
+                        s1.getExpectedResult().getGameSituation().getPlayerScore(ownPlayer)
+                                - s2.getExpectedResult().getGameSituation().getPlayerScore(ownPlayer)
                         )).get();
 
                 if(! initialState.getState().getNextChoice().equals(ownPlayer)) {
                     options.stream()
-                            .filter(((Predicate<OptionAnalysis<T>>)choosen::equals).negate())
+                            .filter(((Predicate<OptionAnalysis<T>>)chosen::equals).negate())
                             .map(OptionAnalysis::getData)
-                            .forEach(choosen.getData()::putAll);
+                            .forEach(chosen.getData()::putAll);
                 }
 
                 if(steps < initialSteps) {
-                    choosen.data.put(initialState.getState(), choosen.expectedResult);
+                    chosen.data.put(initialState.getState(), chosen.getExpectedResult());
                 }
-                return choosen;
+                return chosen;
         }
     }
 
     private static class OptionAnalysis<T extends GameState<T>> {
-        private T expectedResult;
-        private Map<T,T> data = new HashMap<>();
+        private final T expectedResult;
+        private final Map<T,T> data = new HashMap<>();
 
         public OptionAnalysis(T expectedResult) {
             this.expectedResult = expectedResult;

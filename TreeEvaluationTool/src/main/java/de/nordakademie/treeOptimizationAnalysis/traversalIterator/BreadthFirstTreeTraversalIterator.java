@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class BreadthFirstTreeTraversalIterator<T extends GameState<T>> implements TreeTraversalIterator<T> {
-    private Queue<GameStateTreeNode<T>> queue = new ArrayDeque<>();
+    private final Queue<GameStateTreeNode<T>> queue = new ArrayDeque<>();
 
     @Override
     public boolean isEmpty() {

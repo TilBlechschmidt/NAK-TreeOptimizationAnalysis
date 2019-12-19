@@ -11,25 +11,21 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
 
-
-public class AndExitConditionTest extends ExitConditionTest {
+public class AndExitConditionTest<T extends GameState<T>> extends ExitConditionTest<T> {
     @Override
-    protected Stream<ExitCondition> exitConditionsUnderTest() {
-        return Arrays.<ExitCondition>asList(new AndExitCondition(new NeverExitCondition())).stream();
+    protected Stream<ExitCondition<T>> exitConditionsUnderTest() {
+        return Stream.of(new AndExitCondition<T>(new NeverExitCondition<>()));
     }
 
     @Override
-    protected Stream<GameStateTreeNode> sampleStates() {
+    protected Stream<GameStateTreeNode<T>> sampleStates() {
         GameState chess = new ChessGameState(new ChessPiece[][]{{ChessPiece.king(Player.PLAYER_1), null, null, ChessPiece.king(Player.PLAYER_2)}}, Player.PLAYER_1);
         GameState chessFinal = new ChessGameState(new ChessPiece[][]{{ChessPiece.king(Player.PLAYER_1), null, ChessPiece.king(Player.PLAYER_2)}}, Player.PLAYER_1);
         GameState inARow = new InARowGameState(3,3,3,false, Player.PLAYER_1);
-        return Arrays.asList(chess,chessFinal,inARow).stream().map(s -> new GameStateTreeNode<>(s, null, 0));
+        return Stream.of(chess,chessFinal,inARow).map(s -> new GameStateTreeNode<>(s, null, 0));
     }
 
     @Test
@@ -37,9 +33,9 @@ public class AndExitConditionTest extends ExitConditionTest {
         ExitCondition falseExitCondition = Mockito.mock(ExitCondition.class);
         Mockito.when(falseExitCondition.shouldBreak(null,null)).thenReturn(false);
 
-        ExitCondition and1 = new AndExitCondition(falseExitCondition);
-        ExitCondition and2 = new AndExitCondition(falseExitCondition, falseExitCondition);
-        ExitCondition and3 = new AndExitCondition(falseExitCondition, falseExitCondition, falseExitCondition);
+        ExitCondition and1 = new AndExitCondition<>(falseExitCondition);
+        ExitCondition and2 = new AndExitCondition<>(falseExitCondition, falseExitCondition);
+        ExitCondition and3 = new AndExitCondition<>(falseExitCondition, falseExitCondition, falseExitCondition);
 
         Assert.assertFalse(and1.shouldBreak(null,null));
         Assert.assertFalse(and2.shouldBreak(null,null));
@@ -53,9 +49,9 @@ public class AndExitConditionTest extends ExitConditionTest {
         ExitCondition trueExitCondition = Mockito.mock(ExitCondition.class);
         Mockito.when(trueExitCondition.shouldBreak(null,null)).thenReturn(true);
 
-        ExitCondition and1of2 = new AndExitCondition(trueExitCondition, falseExitCondition);
-        ExitCondition and1of3 = new AndExitCondition(falseExitCondition, trueExitCondition, falseExitCondition);
-        ExitCondition and2of3 = new AndExitCondition(trueExitCondition, falseExitCondition, trueExitCondition);
+        ExitCondition and1of2 = new AndExitCondition<>(trueExitCondition, falseExitCondition);
+        ExitCondition and1of3 = new AndExitCondition<>(falseExitCondition, trueExitCondition, falseExitCondition);
+        ExitCondition and2of3 = new AndExitCondition<>(trueExitCondition, falseExitCondition, trueExitCondition);
 
         Assert.assertFalse(and1of2.shouldBreak(null,null));
         Assert.assertFalse(and1of3.shouldBreak(null,null));
@@ -67,9 +63,9 @@ public class AndExitConditionTest extends ExitConditionTest {
         ExitCondition trueExitCondition = Mockito.mock(ExitCondition.class);
         Mockito.when(trueExitCondition.shouldBreak(null,null)).thenReturn(true);
 
-        ExitCondition and1 = new AndExitCondition(trueExitCondition);
-        ExitCondition and2 = new AndExitCondition(trueExitCondition, trueExitCondition);
-        ExitCondition and3 = new AndExitCondition(trueExitCondition, trueExitCondition, trueExitCondition);
+        ExitCondition and1 = new AndExitCondition<>(trueExitCondition);
+        ExitCondition and2 = new AndExitCondition<>(trueExitCondition, trueExitCondition);
+        ExitCondition and3 = new AndExitCondition<>(trueExitCondition, trueExitCondition, trueExitCondition);
 
         Assert.assertTrue(and1.shouldBreak(null,null));
         Assert.assertTrue(and2.shouldBreak(null,null));

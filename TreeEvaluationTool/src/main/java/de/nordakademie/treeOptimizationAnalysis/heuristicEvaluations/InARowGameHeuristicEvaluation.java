@@ -10,7 +10,7 @@ import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<InARowGameState> {
-    public static final BinaryOperator<Integer> ACCUMULATE_BY_MAX = new BinaryOperator<Integer>() {
+    public static final BinaryOperator<Integer> ACCUMULATE_BY_MAX = new BinaryOperator<>() {
         @Override
         public Integer apply(Integer akku, Integer length) {
             return Math.max(akku, length);
@@ -21,7 +21,7 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
             return "max";
         }
     };
-    public static final BinaryOperator<Integer> ACCUMULATE_BY_SQUARE_SUM = new BinaryOperator<Integer>() {
+    public static final BinaryOperator<Integer> ACCUMULATE_BY_SQUARE_SUM = new BinaryOperator<>() {
         @Override
         public Integer apply(Integer akku, Integer length) {
             return akku + length*length;
@@ -94,9 +94,9 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
         return () -> new InARowGameHeuristicEvaluation(0, pointsFinder, maxPoints);
     }
 
-    private int initialAccumulator;
-    private PointsCounter lengthDefinition;
-    private int maxPoints;
+    private final int initialAccumulator;
+    private final PointsCounter lengthDefinition;
+    private final int maxPoints;
 
     public InARowGameHeuristicEvaluation(int initialAccumulator, PointsCounter lengthDefinition, int maxPoints) {
         this.initialAccumulator = initialAccumulator;
@@ -108,7 +108,7 @@ public class InARowGameHeuristicEvaluation extends NullSumHeuristicEvaluation<In
     public double evalFor(Player player, InARowGameState state) {
         List<List<Boolean>> field = Arrays.stream(state.getField())
                 .map(Arrays::stream)
-                .map(s -> s == null ? null : s.map(player::equals))
+                .map(s -> s.map(f -> f == null ? null : player.equals(f)))
                 .map(s -> s.collect(Collectors.toList()))
                 .collect(Collectors.toList());
         int winLength = state.getWinLength();

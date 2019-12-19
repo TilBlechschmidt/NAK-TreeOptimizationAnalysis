@@ -7,12 +7,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+public abstract class ExitConditionTest<T extends GameState<T>> {
 
-public abstract class ExitConditionTest {
-
-    protected abstract Stream<ExitCondition> exitConditionsUnderTest();
-    protected abstract Stream<GameStateTreeNode> sampleStates();
+    protected abstract Stream<ExitCondition<T>> exitConditionsUnderTest();
+    protected abstract Stream<GameStateTreeNode<T>> sampleStates();
 
     @Test
     public void exitConditionsShouldExitOnFinalState() {
