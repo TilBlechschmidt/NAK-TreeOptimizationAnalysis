@@ -1,10 +1,6 @@
 # Methodik
 
-**TODO What kind of unspecific horseshit is this?! How is anyone expected to reproduce that ...**
-- find a lot of algorithms
-  - divide into multiple steps
-  - go through all methods
-
+Um die Varianten der Treeexploration zu egründen, haben wir den Algorithmus in mehrerer kleine Sektionen Zerlegt, für die wir mehrere beispielhafte Varianten implementiert haben. (siehe auch ([@sec:components]))
 Die gefundenen und implementierten Algorithmen werden anschließend in jeder möglichen Kombination, die in einer für den Umfang dieser Arbeit annehmbaren Zeit berechnet werden kann, ausgeführt. Die Messwerte in dieser Arbeit wurden auf einem 16" MacBook Pro der ersten Generation mit einem Intel Core i9-9880H und einem stabilen Takt unter Last von $3.10 - 3.20$ GHz gesammelt (siehe Taktfrequenz Diagramm im Anhang).
 
 Dabei werden folgende Daten für jedes Spiel in eine Datei geschrieben:
@@ -38,7 +34,6 @@ Die gesammelten Metriken werden anschließend jeweils nach den genutzten Abbruch
 ### Deterministische Strategiespiele {#sec:possibleGames}
 
 Damit ein Spiel mittels Wurzelbäume gelöst werden kann müssen folgende Bedingungen erfüllt sein:
-**TODO Find a cite for these prerequisites maybe AlphaGo**
 
 Vollständiges Wissen
 : Der komplette Zustand des Spiels muss bekannt sein.
@@ -54,22 +49,24 @@ Formalisierbar
 : Keine kreativen oder zufälligen Komponenten
   Klar definierte Regeln
 
-In dieser Arbeit wurden anhand von Komplexität und Implementationsaufwand die in den folgenden Sektionen erklärten Spiele gewählt. Des Weiteren wurde Go aufgrund der hohen Spielbaum breite und der schwierig zu implementierenden Heuristik zur Bewertung von Spielzügen nicht gewählt.
+[@src:sauer]
+
+In dieser Arbeit wurden anhand von Komplexität und Implementationsaufwand die in den folgenden Sektionen erklärten Spiele gewählt. Des Weiteren wurde Go, das in Erwägung gezogen wurde, aufgrund der hohen Spielbaum breite und der schwierig zu implementierenden Heuristik zur Bewertung von Spielzügen nicht gewählt.
 
 #### Tic Tac Toe
-Bei TicTacToe werden spielerspezifische Steine auf einem quadratischen Feld mit einer Seitenlänge von drei abwechselnd von zwei Spielern gesetzt. Gewonnen hat derjenige, dessen Steine eine zusammenhängende vertikale, horizontale oder diagonale Reihe mit einer Länge von drei bilden. Eine übliche Strategie ist es, Steine in Positionen zu setzen, wo mehrere Möglichkeiten einer Reihe entstehen. Dies sind im Normalfall die Mitte und die Ecken. **TODO Source**
+Bei TicTacToe werden spielerspezifische Steine auf einem quadratischen Feld mit einer Seitenlänge von drei abwechselnd von zwei Spielern gesetzt. Gewonnen hat derjenige, dessen Steine eine zusammenhängende vertikale, horizontale oder diagonale Reihe mit einer Länge von drei bilden. Eine übliche Strategie ist es, Steine in Positionen zu setzen, wo mehrere Möglichkeiten einer Reihe entstehen. Dies sind im Normalfall die Mitte und die Ecken. [@src:ticTacToe]
 
 #### Vier gewinnt
-Bei Vier gewinnt ist es das Ziel, genau wie bei TicTacToe, eine zusammenhängende vertikale, horizontale oder diagonale Reihe mit einer Länge von drei zu bilden. Die Rahmenbedingungen sind jedoch dahingehend anders, dass das Feld sieben Spalten breit und sechs Zeilen hoch ist und Steine nach unten fallen. Hier gilt ebenfalls die Strategie, dass es von Vorteil ist die Felder zu belegen, die einem mehr Optionen geben eine Reihe zu vervollständigen. **TODO Source**
-
-<!-- Things in common -> resons for the Strategies are simumlar -> a bit represented in the Heuristic evaluation by number of stones in possible rows -> Positions will block -->
+Bei Vier gewinnt ist es das Ziel, genau wie bei TicTacToe, eine zusammenhängende vertikale, horizontale oder diagonale Reihe mit einer Länge von drei zu bilden. Die Rahmenbedingungen sind jedoch dahingehend anders, dass das Feld sieben Spalten breit und sechs Zeilen hoch ist und Steine nach unten fallen. Hier gilt ebenfalls die Strategie, dass es von Vorteil ist die Felder zu belegen, die einem mehr Optionen geben eine Reihe zu vervollständigen. [@src:fourConnect]
 
 #### Schach
-Das dritte Spiel was hier betrachtet wird ist Schach. Hierbei gibt es sechs verschiedene Figuren, die jeweils ihre eigenen Bewegungsregeln haben. Die zwei Spieler ziehen abwechselnd und es beginnt Weiß. Ein gegnerischer Stein kann geschlagen werden, indem eine eigene Figur auf das Feld gezogen wird. Das Ziel ist es die Königsfigur des Gegners zu schlagen.
+Das dritte Spiel was hier betrachtet wird ist Schach. Hierbei gibt es sechs verschiedene Figuren, die jeweils ihre eigenen Bewegungsregeln haben. Die zwei Spieler ziehen abwechselnd und es beginnt Weiß. Ein gegnerischer Stein kann geschlagen werden, indem eine eigene Figur auf das Feld gezogen wird. Das Ziel ist es die Königsfigur des Gegners zu Schach Matt zu setzen, also in eine Position zu bringen, in der sie geschlagen werden könnte und nicht ausweichen kann.
+[@src:fideChessRules]
 
 Für diese Arbeit wurden einige Einschränkungen getätigt:
 * Keine Rochade
-* Kein Spielende durch Remis
+* Kein Schlagen en Passant
+* Kein Spielende durch Remis ausser es nur noch die Könige auf dem Feld
 * Aufgeben nicht möglich
 
 Aufgrund der hohen Komplexität von Schach können nur wenige Schritte im Voraus berechnet werden. Hier werden nur maximal drei Schritte berechnet um grundlegende Strategien wie das schlagen gegnerischer Figuren, dieses zu verhindern und einen Schlagabtausch zu ermöglichen.
@@ -79,7 +76,7 @@ Aufgrund der hohen Komplexität von Schach können nur wenige Schritte im Voraus
 
 Ein Spiel besteht aus zwei Controllern, die auf austauschbare Komponenten zugreifen. Diese austauschbaren Komponenten werden dabei durch eine Factory erstellt, genauere Informationen sind dem UML Diagramm im Anhang zu entnehmen.
 
-## Austauschbare Komponenten
+## Austauschbare Komponenten {#sec:components}
 ### Caches
 Die Baum-Caches sind lediglich zur Beschleunigung der Berechnung implementiert worden und wurden durch transitive HashMaps umgesetzt. Dabei gibt es zwei Varianten
 
@@ -133,5 +130,5 @@ Es werden die Figuren auf dem Brett mit Zahlenwerten aus einer Tabelle belegt un
 | Läufer | 3 |
 | Springer | 3 |
 | Bauer | 1 |
-
+[@src:chessValues]
 \pagebreak

@@ -1,6 +1,6 @@
 ---
     title: Spielstrategie über Baumsuche in deterministischen Spielen
-    
+
     author: Patrick Sabrowski, Til Blechschmidt
     Zenturie: A17a
     Studiengang: Angewandte Informatik
@@ -20,7 +20,7 @@ In dieser Arbeit werden mögliche Abbruchbedingungen zur traversierung des Spiel
 
 ## Übertragbarkeit
 
-Entscheidungsbäume wie sie bei z.B. Schach, TicTacToe oder auch Vier Gewinnt Anwendung finden lassen sich auch auf einige Probleme aus der realen Welt anwenden **TODO FIND SOURCE** und ein Algorithmus zur optimierten Entscheidungsfindung ließe sich potentiell auf diese übertragen. Dabei muss allerdings beachtet werden, dass in den meisten realen Situationen keine vollständige Kenntnis der Situation vorhanden ist während dies in den meisten klassischen Brettspielen Spielen der Fall ist und zusätzlich meist nicht nur ein Gegenspieler teilnimmt sondern mehrere. Dies limitiert die Übertragbarkeit.
+Entscheidungsbäume wie sie bei z.B. Schach, TicTacToe oder auch Vier Gewinnt Anwendung finden lassen sich auch auf einige Probleme aus der realen Welt anwenden [@src:strategicGames] und ein Algorithmus zur optimierten Entscheidungsfindung ließe sich potentiell auf diese übertragen. Dabei muss allerdings beachtet werden, dass in den meisten realen Situationen keine vollständige Kenntnis der Situation vorhanden ist während dies in den meisten klassischen Brettspielen Spielen der Fall ist und zusätzlich meist nicht nur ein Gegenspieler teilnimmt sondern mehrere. Dies limitiert die Übertragbarkeit.
 Ein weiterer Anwendungszweck für Computerspieler ist die Anwendung in modernen Computerspielen als Gegenspieler für Menschen. Sofern sich ein gegebenes Spiel als Entscheidungsbaum modellieren lässt, kann die Erkenntnis dieser Arbeit angewendet werden.
 
 \pagebreak

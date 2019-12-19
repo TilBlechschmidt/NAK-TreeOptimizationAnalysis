@@ -2,9 +2,9 @@
 
 Um eine Strategie für Spiele umzusetzen muss zunächst eine Abstraktion durchgeführt werden.
 
-## Darstellung von Spielen durch gewurzelte Bäume
+## Darstellung von Spielen durch Wurzelbäume
 
-Die erste Abstraktionsebene stellt die Repräsentation von Spielzuständen und Zügen in einem gewurzelten Baum **TODO Cite source** dar. Alle möglichen Spielzustände werden als Knoten repräsentiert, während die möglichen Spielzüge durch Kanten dargestellt werden. Spielzustände die auf mehreren Wegen erreicht werden können werden zur Vereinfachung der Implementation durch mehrere Knoten abgebildet.
+Die erste Abstraktionsebene stellt die Repräsentation von Spielzuständen und Zügen in einem Wurzelbaum [@src:strategicGames] dar. Alle möglichen Spielzustände werden als Knoten repräsentiert, während die möglichen Spielzüge durch Kanten dargestellt werden. Spielzustände die auf mehreren Wegen erreicht werden können werden zur Vereinfachung der Implementation durch mehrere Knoten abgebildet.
 Ein Spiel lässt sich nur unter bestimmten Bedingungen als Baum darstellen. Auf diese wird in [@sec:possibleGames] näher eingegangen.
 
 ## Implementation von Strategie durch Exploration
@@ -18,11 +18,7 @@ In einem formalisierten Spielbaum ist das erwartete Ergebnis eines Knotens:
 - Der Knoten selbst, wenn er ein Blatt ist
 - Unterknoten mit dem besten erwarteten Ergebnis für den Spieler, der den nächsten Zug tätigt.
 
-when formalized by a game tree, the expected result of a node is:
-    the node if it is a leaf
-    the node with the best expected result for the player making the next move, that its child
-
-**TODO Explain what getPoints(...) does**
+Dies ist umgesetzt durch:
 
 ```java
 private GameStateTreeNode<T> choice(GameStateTreeNode<T> start) {
@@ -42,6 +38,12 @@ private GameStateTreeNode<T> choice(GameStateTreeNode<T> start) {
     return result;
 }
 ```
+wobei
+```java
+  getPoints(GameStateTreeNode, Player)
+```
+die Bewertung des Jeweiligen Knotens durch die gecachten werte ausführt. (die im Vorraus mit ```this::choice```) ermittelt wurden.
+
 
 ### Performance
 Mit einer rein rekursiven Strategie tritt sehr schnell ein Performance-Problem auf. Bei einem $3x3$ TicTacToe Feld sind es $(3*3)! = 362.880$ mögliche Zustände, während es bei einem $7x6$ VierGewinnt bereits mindestens $7!^6 \approx 1.64 * 10^{22}$ sind. Bei klassischem Schach bewegt es sich in der Größenordnung von $10^{120}$ [@src:shannon]. Da dies selbst auf moderner Hardware nicht in einer annehmbaren Zeit berechenbar ist, wird die Traversierung im Rahmen dieser Arbeit anhand von verschiedenen Kriterien abgebrochen.
