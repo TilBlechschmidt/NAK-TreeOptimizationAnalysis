@@ -7,11 +7,12 @@ import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEv
 import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class OrExitCondition<T extends GameState<T>> implements ExitCondition<T> {
-    Set<ExitCondition<T>> exitConditions;
+    final Set<ExitCondition<T>> exitConditions;
 
     public static ExitCondition.Factory factory(ExitCondition.Factory... args) {
         return new Factory() {
@@ -29,6 +30,10 @@ public class OrExitCondition<T extends GameState<T>> implements ExitCondition<T>
         this.exitConditions = exitConditions;
     }
 
+    @SafeVarargs
+    public OrExitCondition(ExitCondition<T>... exitConditions) {
+        this(new HashSet<>(Arrays.asList(exitConditions)));
+    }
     @Override
     public boolean shouldBreak(GameStateTreeNode<T> evaluationBase, GameStateTreeNode<T> gameState) {
         for(ExitCondition<T> exitCondition:exitConditions) {

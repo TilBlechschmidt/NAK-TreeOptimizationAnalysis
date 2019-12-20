@@ -1,8 +1,8 @@
 package de.nordakademie.treeOptimizationAnalysis.gamePoints;
 
 public class FixedGamePoints implements GamePoints {
-    private double player1Score;
-    private double player2Score;
+    private final double player1Score;
+    private final double player2Score;
 
     public FixedGamePoints(double player1Score, double player2Score) {
         this.player1Score = player1Score;

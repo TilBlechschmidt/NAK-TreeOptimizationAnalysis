@@ -28,9 +28,9 @@ public class ChessGameState implements GameState<ChessGameState> {
         return GameSituation.RUNNING;
     }
 
-    private class Move {
-        Field start;
-        Field goal;
+    private static class Move {
+        final Field start;
+        final Field goal;
 
         public Move(Field start, Field goal) {
             this.start = start;
@@ -38,9 +38,8 @@ public class ChessGameState implements GameState<ChessGameState> {
         }
     }
 
-    private ChessPiece[][] board;
-    private Player nextPlayer;
-    private Map<Player, Field> kingPositions;
+    private final ChessPiece[][] board;
+    private final Player nextPlayer;
 
     public ChessGameState(ChessPiece[][] board, Player nextPlayer) {
         this.board = board;
@@ -48,8 +47,8 @@ public class ChessGameState implements GameState<ChessGameState> {
     }
 
     public static class Field {
-        private int x;
-        private int y;
+        private final int x;
+        private final int y;
 
         public Field(int x, int y) {
             this.x = x;

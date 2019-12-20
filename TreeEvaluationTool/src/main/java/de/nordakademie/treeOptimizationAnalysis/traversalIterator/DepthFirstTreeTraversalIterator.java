@@ -6,7 +6,7 @@ import de.nordakademie.treeOptimizationAnalysis.gameStates.GameStateTreeNode;
 import java.util.Stack;
 
 public class DepthFirstTreeTraversalIterator<T extends GameState<T>> implements TreeTraversalIterator<T> {
-    private Stack<GameStateTreeNode<T>> stack = new Stack<>();
+    private final Stack<GameStateTreeNode<T>> stack = new Stack<>();
 
     @Override
     public boolean isEmpty() {

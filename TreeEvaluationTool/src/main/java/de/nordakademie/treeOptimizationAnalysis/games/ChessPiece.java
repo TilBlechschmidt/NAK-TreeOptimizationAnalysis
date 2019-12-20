@@ -10,26 +10,25 @@ import java.util.*;
  */
 public class ChessPiece {
     private static class Dir {
-        int x;
-        int y;
+        final int x;
+        final int y;
         Dir(int x, int y) {
             this.x = x;
             this.y = y;
         }
     }
 
-    private static Dir[] ROOK_DIRS = {new Dir(1,0),new Dir(0,1),new Dir(-1,0),new Dir(0,-1)};
-    private static Dir[] BISHOP_DIRS = {new Dir(1,1),new Dir(1,-1),new Dir(-1,1),new Dir(-1,-1)};
-    private static Dir[] KNIGHT_DIRS = {new Dir(2,1), new Dir(1,2), new Dir(-1, 2),
+    private static final Dir[] ROOK_DIRS = {new Dir(1,0),new Dir(0,1),new Dir(-1,0),new Dir(0,-1)};
+    private static final Dir[] BISHOP_DIRS = {new Dir(1,1),new Dir(1,-1),new Dir(-1,1),new Dir(-1,-1)};
+    private static final Dir[] KNIGHT_DIRS = {new Dir(2,1), new Dir(1,2), new Dir(-1, 2),
             new Dir(-2,1), new Dir(-2,-1), new Dir(-1,-2), new Dir(1, -2), new Dir(2,-1)};
-    private static Dir[] QUEEN_AND_KING_DIRS = {new Dir(1,0), new Dir(1,1), new Dir(0,1),
+    private static final Dir[] QUEEN_AND_KING_DIRS = {new Dir(1,0), new Dir(1,1), new Dir(0,1),
             new Dir(-1,1), new Dir(-1,0), new Dir(-1,-1), new Dir(0,-1), new Dir(1,-1)};
 
     public static ChessPiece rook(Player player) {return new ChessPiece(player, 5, true, ROOK_DIRS,false, "r"); }
     public static ChessPiece bishop(Player player) {return new ChessPiece(player, 3, true, BISHOP_DIRS, false,"b"); }
     public static ChessPiece knight(Player player) {return new ChessPiece(player, 3, false, KNIGHT_DIRS, false, "n"); }
     public static ChessPiece queen(Player player) {return new ChessPiece(player, 5, true, QUEEN_AND_KING_DIRS, false, "q"); }
-    //TODO Casteling - maybe will never be done, because its not that critical.
     public static ChessPiece king(Player player) {return new ChessPiece(player, 5, false, QUEEN_AND_KING_DIRS, true, "k"); }
     public static ChessPiece pawn(Player player) { return pawn(player, false);}
 
@@ -43,9 +42,9 @@ public class ChessPiece {
                 if(step.isIn(board) && step.get(board) == null) {
                     result.add(step);
                     if(! moved) {
-                        ChessGameState.Field doublestep = new ChessGameState.Field(ownPosition.getX(), ownPosition.getY() + 2*dy);
-                        if(doublestep.isIn(board) && doublestep.get(board) == null) {
-                            result.add(doublestep);
+                        ChessGameState.Field doubleStep = new ChessGameState.Field(ownPosition.getX(), ownPosition.getY() + 2*dy);
+                        if(doubleStep.isIn(board) && doubleStep.get(board) == null) {
+                            result.add(doubleStep);
                         }
                     }
                 }
@@ -73,12 +72,12 @@ public class ChessPiece {
         };
     }
 
-    private Player player;
-    private int value;
-    private String code;
-    private boolean multiSteps;
-    private boolean isKing;
-    private Dir[] directions;
+    private final Player player;
+    private final int value;
+    private final String code;
+    private final boolean multiSteps;
+    private final boolean isKing;
+    private final Dir[] directions;
 
     public ChessPiece(Player player, int value, boolean multiSteps, Dir[] directions, boolean isKing, String code) {
         this.player = player;

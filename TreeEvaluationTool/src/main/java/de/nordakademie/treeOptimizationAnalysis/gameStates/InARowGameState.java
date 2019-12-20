@@ -108,58 +108,6 @@ public class InARowGameState implements GameState<InARowGameState> {
         }
 
         return situation;
-
-
-//        var ref = new Object() {
-//            int currentLength = 0;
-//            Player previousField = null;
-//            GameSituation situation = GameSituation.RUNNING;
-//        };
-//
-//        BinaryOperator<Integer> checkField = (x, y) -> {
-//            // TODO Replace this with proper loops
-//            if (x >= width || y >= height) return null;
-//            Player currentField = field[x][y];
-//
-//            if (ref.previousField != currentField) ref.currentLength = 0;
-//            if (currentField != null) ref.currentLength++;
-//            if (ref.currentLength >= winLength) {
-//                ref.situation = GameSituation.hasWon(currentField);
-//            }
-//
-//            ref.previousField = currentField;
-//
-//            return null;
-//        };
-//
-//        // Check for vertical lines
-//        for (int x = 0; x < width; x++) {
-//            for (int y = 0; y < height; y++) checkField.apply(x, y);
-//            ref.currentLength = 0;
-//            ref.previousField = null;
-//        }
-//
-//        // Check for horizontal lines
-//        for (int y = 0; y < height; y++) {
-//            for (int x = 0; x < width; x++) checkField.apply(x, y);
-//            ref.currentLength = 0;
-//            ref.previousField = null;
-//        }
-//
-//        // Check for diagonal lines
-//        for (int startX = 0; startX < width - winLength; startX++) {
-//            // Bottom left to top right
-//            for (int xy = 0; xy < maximumXY; xy++) checkField.apply(xy + startX, xy);
-//            ref.currentLength = 0;
-//            ref.previousField = null;
-//
-//            // Top left to bottom right
-//            for (int xy = 0; xy < maximumXY; xy++) checkField.apply(xy + startX, (maximumXY - 1) - xy);
-//            ref.currentLength = 0;
-//            ref.previousField = null;
-//        }
-//
-//        return ref.situation;
     }
 
     @Override
@@ -179,13 +127,6 @@ public class InARowGameState implements GameState<InARowGameState> {
         return stringBuilder.toString();
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 
     public boolean isGravity() {
         return gravity;

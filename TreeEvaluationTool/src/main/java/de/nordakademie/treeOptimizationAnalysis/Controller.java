@@ -9,9 +9,7 @@ import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReaction
 import de.nordakademie.treeOptimizationAnalysis.traversalIterator.TreeTraversalIterator;
 
 import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Controller<T extends GameState<T>> {
@@ -51,7 +49,9 @@ public class Controller<T extends GameState<T>> {
         iterator.push(this.initialNode);
         long time = ManagementFactory.getThreadMXBean().getCurrentThreadCpuTime();
 
-        while (!next()) {
+        boolean running = true;
+        while (running) {
+            running = !next();
         }
 
         GameStateTreeNode<T> choice = choice();

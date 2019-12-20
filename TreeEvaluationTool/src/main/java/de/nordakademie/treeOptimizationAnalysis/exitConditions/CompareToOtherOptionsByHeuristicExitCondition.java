@@ -7,10 +7,10 @@ import de.nordakademie.treeOptimizationAnalysis.heuristicEvaluations.HeuristicEv
 import de.nordakademie.treeOptimizationAnalysis.knownReactionPaths.KnownReactionsPath;
 
 public class CompareToOtherOptionsByHeuristicExitCondition<T extends GameState<T>> implements  ExitCondition<T> {
-    private double difference;
-    private KnownReactionsPath<T> cache;
-    private HeuristicEvaluation<T> heuristicEvaluation;
-    private Player player;
+    private final double difference;
+    private final KnownReactionsPath<T> cache;
+    private final HeuristicEvaluation<T> heuristicEvaluation;
+    private final Player player;
 
     public static ExitCondition.Factory factory(double difference) {
         return new ExitCondition.Factory() {

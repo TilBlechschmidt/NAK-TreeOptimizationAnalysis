@@ -5,7 +5,7 @@ import de.nordakademie.treeOptimizationAnalysis.gamePoints.FixedGamePoints;
 import de.nordakademie.treeOptimizationAnalysis.gamePoints.GamePoints;
 import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 
-public abstract class NullSumHeuristicEvaluation<T extends GameState> extends RuleCompliantHeuristicEvaluation<T> {
+public abstract class NullSumHeuristicEvaluation<T extends GameState<T>> extends RuleCompliantHeuristicEvaluation<T> {
 
     @Override
     public GamePoints evalHeuristic(T state) {

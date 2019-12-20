@@ -57,7 +57,7 @@ public class NamedMetric {
         allMetrics.addAll(playerMetrics(Player.PLAYER_2));
     }
 
-    private static final NamedMetric playerMetric (Player player,String name, Function<Controller<?>, Object> metric) {
+    private static NamedMetric playerMetric (Player player,String name, Function<Controller<?>, Object> metric) {
         if(Player.PLAYER_1.equals(player)) {
             return new NamedMetric(name + " of Player 1", (c1,c2,r,i,d,e) -> metric.apply(c1));
         } else if (Player.PLAYER_2.equals(player)) {
@@ -68,15 +68,15 @@ public class NamedMetric {
 
     }
 
-    private static final List<NamedMetric> playerMetrics(Player p) {
+    private static List<NamedMetric> playerMetrics(Player p) {
         return Arrays.asList(
                 playerMetric(p, "expansion strategy", c -> c.getIterator().getClass().getSimpleName()),
                 playerMetric(p, "cache", c -> c.getCache().getClass().getSimpleName()),
                 playerMetric(p, "watched nodes", c -> c.getCache().size()),
-                playerMetric(p, "evaluation stategy", c -> c.getEvaluation()),
+                playerMetric(p, "evaluation strategy", Controller::getEvaluation),
                 playerMetric(p, "exit condition type", c -> c.getExitCondition().getClass().getSimpleName()),
-                playerMetric(p, "exit condition", c -> c.getExitCondition()),
-                playerMetric(p, "total Speed", c -> c.getTime())
+                playerMetric(p, "exit condition", Controller::getExitCondition),
+                playerMetric(p, "total Speed", Controller::getTime)
         );
     }
 
@@ -104,11 +104,11 @@ public class NamedMetric {
     }
 
     private interface Metric  {
-        Object messure(Controller<?> controller1, Controller<?> controller2, GameStateTreeNode<?> finalNode, GameState initialNode, long fullTime, String error);
+        Object measure(Controller<?> controller1, Controller<?> controller2, GameStateTreeNode<?> finalNode, GameState<?> initialNode, long fullTime, String error);
     }
 
-    public Object messure(Controller<?> controller1, Controller<?> controller2, GameStateTreeNode<?> finalNode, GameState initialNode, long fullTime, String error) {
-        return metric.messure(controller1,controller2,finalNode,initialNode,fullTime, error);
+    public Object measure(Controller<?> controller1, Controller<?> controller2, GameStateTreeNode<?> finalNode, GameState<?> initialNode, long fullTime, String error) {
+        return metric.measure(controller1,controller2,finalNode,initialNode,fullTime, error);
     }
 
     @Override

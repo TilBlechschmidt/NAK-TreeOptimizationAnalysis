@@ -5,14 +5,9 @@ import de.nordakademie.treeOptimizationAnalysis.gameStates.GameState;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UncompressedKnownReactionsPath<T extends GameState> implements KnownReactionsPath<T> {
-    private Map<T,T> reactions = new HashMap<>();
-    public static final Factory FACTORY = new Factory() {
-        @Override
-        public <T extends GameState> KnownReactionsPath<T> create() {
-            return new UncompressedKnownReactionsPath<>();
-        }
-    };
+public class UncompressedKnownReactionsPath<T extends GameState<T>> implements KnownReactionsPath<T> {
+    private final Map<T,T> reactions = new HashMap<>();
+    public static final Factory FACTORY = UncompressedKnownReactionsPath::new;
     @Override
     public void cache(T start, T result) {
         reactions.put(start,result);

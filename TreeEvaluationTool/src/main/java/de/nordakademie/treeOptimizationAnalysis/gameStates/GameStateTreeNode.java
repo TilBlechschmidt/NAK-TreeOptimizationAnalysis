@@ -8,14 +8,8 @@ public class GameStateTreeNode<T extends GameState<T>> {
     private final T state;
     private final GameStateTreeNode<T> parent;
     private final int depth;
-    private Set<GameStateTreeNode<T>> children = new HashSet<>();
+    private final Set<GameStateTreeNode<T>> children = new HashSet<>();
     private boolean expanded;
-
-    public GameStateTreeNode(T state) {
-        this.state = state;
-        this.parent = null;
-        this.depth = 0;
-    }
 
     public GameStateTreeNode(T state, GameStateTreeNode<T> parent, int depth) {
         this.state = state;
@@ -39,10 +33,9 @@ public class GameStateTreeNode<T extends GameState<T>> {
         return Collections.unmodifiableSet(children);
     }
 
-    public GameStateTreeNode<T> createChild(T nextState) {
+    public void createChild(T nextState) {
         GameStateTreeNode<T> child = new GameStateTreeNode<>(nextState, this, depth + 1);
         children.add(child);
-        return child;
     }
 
     public Set<GameStateTreeNode<T>> expand() {

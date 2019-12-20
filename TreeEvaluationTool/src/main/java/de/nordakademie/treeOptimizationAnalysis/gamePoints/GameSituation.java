@@ -8,10 +8,10 @@ public enum GameSituation implements GamePoints {
     TIE(0, 0, true, "Tie"),
     RUNNING(-0.1, -0.1, false, "Running");
 
-    private double player1Score;
-    private double player2Score;
-    private boolean isFinal;
-    private String description;
+    private final double player1Score;
+    private final double player2Score;
+    private final boolean isFinal;
+    private final String description;
 
     GameSituation(double player1Score, double player2Score, boolean isFinal, String description) {
         this.player1Score = player1Score;
