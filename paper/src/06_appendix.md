@@ -4,7 +4,7 @@
 
 ![Taktfrequenz - Vier Gewinnt](src/graphs/ClockFreq-FourInARow.pdf)
 
-![Taktfrequenz - TicTacToe](src/graphs/ClockFreq-TicTacToe.pdf)
+![Taktfrequenz - Tic-Tac-Toe](src/graphs/ClockFreq-TicTacToe.pdf)
 
 <!-- GroupedByEvalStrat -->
 <!-- ForInARow -->
@@ -20,18 +20,18 @@
 
 ![Anzahl von Zügen - Vier Gewinnt - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/FourInARow/TurnsPlayed.pdf)
 
-<!-- TicTacToe -->
-![Ausführungszeit - TicTacToe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/ExecutionTime.pdf)
+<!-- Tic-Tac-Toe -->
+![Ausführungszeit - Tic-Tac-Toe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/ExecutionTime.pdf)
 
-![Ausführungszeit pro Zug - TicTacToe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/ExecutionTimeByTurn.pdf)
+![Ausführungszeit pro Zug - Tic-Tac-Toe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/ExecutionTimeByTurn.pdf)
 
-![Spielende - TicTacToe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/GameEndings.pdf)
+![Spielende - Tic-Tac-Toe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/GameEndings.pdf)
 
-![Betrachtete Knoten - TicTacToe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/NodesVisited.pdf)
+![Betrachtete Knoten - Tic-Tac-Toe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/NodesVisited.pdf)
 
-![Betrachtete Knoten pro Zug - TicTacToe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/NodesVisitedByTurn.pdf)
+![Betrachtete Knoten pro Zug - Tic-Tac-Toe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/NodesVisitedByTurn.pdf)
 
-![Anzahl von Zügen - TicTacToe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/TurnsPlayed.pdf)
+![Anzahl von Zügen - Tic-Tac-Toe - Gruppiert nach Bewertungsstrategie](src/graphs/GroupedByEvaluationStrategy/TicTacToe/TurnsPlayed.pdf)
 
 <!-- GroupedByExitCondition -->
 <!-- ForInARow -->
@@ -47,18 +47,18 @@
 
 ![Anzahl von Zügen - Vier Gewinnt - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/FourInARow/TurnsPlayed.pdf)
 
-<!-- TicTacToe -->
-![Ausführungszeit - TicTacToe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/ExecutionTime.pdf)
+<!-- Tic-Tac-Toe -->
+![Ausführungszeit - Tic-Tac-Toe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/ExecutionTime.pdf)
 
-![Ausführungszeit pro Zug - TicTacToe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/ExecutionTimeByTurn.pdf)
+![Ausführungszeit pro Zug - Tic-Tac-Toe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/ExecutionTimeByTurn.pdf)
 
-![Spielende - TicTacToe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/GameEndings.pdf)
+![Spielende - Tic-Tac-Toe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/GameEndings.pdf)
 
-![Betrachtete Knoten - TicTacToe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/NodesVisited.pdf)
+![Betrachtete Knoten - Tic-Tac-Toe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/NodesVisited.pdf)
 
-![Betrachtete Knoten pro Zug - TicTacToe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/NodesVisitedByTurn.pdf)
+![Betrachtete Knoten pro Zug - Tic-Tac-Toe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/NodesVisitedByTurn.pdf)
 
-![Anzahl von Zügen - TicTacToe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/TurnsPlayed.pdf)
+![Anzahl von Zügen - Tic-Tac-Toe - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/TicTacToe/TurnsPlayed.pdf)
 
 <!-- Chess -->
 ![Ausführungszeit - Schach - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/Chess/ExecutionTime.pdf)
@@ -73,7 +73,7 @@
 
 ![Anzahl von Zügen - Schach - Gruppiert nach Abbruchbedingung](src/graphs/GroupedByExitCondition/Chess/TurnsPlayed.pdf "Anzahl von Zügen - Schach - Gruppiert nach Abbruchbedingung")
 
-
+\pagebreak
 
 ## Literaturverzeichnis
 

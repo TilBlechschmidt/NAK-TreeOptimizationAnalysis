@@ -55,25 +55,25 @@ references:
   isbn: 978-0-444-88098-7
 
 - id: src:sauer
-  type: presentation
+  type: article
   author:
    - family: Sauer
      given: Joachim
   title: KI Spielalgorithmen
   issued:
     date-parts:
-      -- 2019
-       - 11
-       - 11
-   language: de-DE
-   URL: https://moodle2.nordakademie.de/pluginfile.php/167594/mod_resource/content/0/WPM KI Spielalgorithmen.pdf
-   accessed:
+    - - 2019
+      - 11
+      - 11
+  language: de-DE
+  URL: https://moodle2.nordakademie.de/course/view.php?id=2966#section-7
+  accessed:
     date-parts:
     - - 2019
       - 12
       - 19
 
-- id: src:ticTacToe
+- id: src:Tic-Tac-Toe
   type: article
   author:
   - family: Do
@@ -83,30 +83,30 @@ references:
   URL: https://www.austms.org.au/Gazette/2005/Jul05/mathellaneous.pdf
   accessed:
     date-parts:
-      - - 2019
-        - 12
-        - 19
+    - - 2019
+      - 12
+      - 19
 
 - id: src:fourConnect
   type: article
-  author: 
+  author:
    - family: Allis
    - given: Viktor
   title: A Knowledge-based Approach ofConnect-Four
   issued:
     date-parts:
-     - - 1988
-       - 10
+    - - 1988
+      - 10
   language: en-US
   URL: http://www.informatik.uni-trier.de/~fernau/DSL0607/Masterthesis-Viergewinnt.pdf
   accessed:
     date-parts:
-     - - 2019
-       - 12
-       - 19
+    - - 2019
+      - 12
+      - 19
 
 - id: src:fideChessRules
-  type: webage
+  type: webpage
   title: FIDE LAWS OF CHESS TAKING EFFECT FROM 1 JANUARY 2018
   language: en-US
   URL: http://rules.fide.com/images/stories/Laws_of_Chess_2018_-_EB_approved_-_clean_version.pdf
@@ -129,4 +129,5 @@ references:
     date-parts:
     - - 2006
   
+
 
